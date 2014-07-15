@@ -193,18 +193,26 @@
 	</section>
 
 	<aside>
-		<svg id="overscan-top" xmlns="http://www.w3.org/2000/svg" version="1.1" >
-			<polygon points="500,0 480,40 520,40" />
-		</svg>
-		<svg id="overscan-left" xmlns="http://www.w3.org/2000/svg" version="1.1" >
-			<polygon points="0,500 40,480 40,520" />
-		</svg>
-		<svg id="overscan-right" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			<polygon points="40,500 0,480 0,520" />
-		</svg>
-		<svg id="overscan-bottom" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			<polygon points="500,40 480,0 520,0" />
-		</svg>
+		<div id="overscan-top">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<polygon points="20,0 00,40 40,40" />
+			</svg>
+		</div>
+		<div id="overscan-left">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<polygon points="0,20 40,0 40,40" />
+			</svg>
+		</div>
+		<div id="overscan-right">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<polygon points="40,20 0,0 0,40" />
+			</svg>
+		</div>
+		<div id="overscan-bottom">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<polygon points="20,40 0,0 40,0" />
+			</svg>
+		</div>
 	</aside>
 
 <style>
@@ -283,8 +291,17 @@
 		fill : #9f9f9f;
 	}
 
-	aside svg {
+	aside div {
 		position : fixed;
+		background : black;
+	}
+
+	aside svg {
+		position : relative;
+		top : 50%;
+		left : 50%;
+		width : 40px;
+		height : 40px;
 	}
 
 	aside polygon {
@@ -297,10 +314,10 @@
 		left : 0;
 		right : 0;
 	}
-	#overscan-top {
+	#overscan-top , #overscan-top svg {
 		top : 0;
 	}
-	#overscan-bottom {
+	#overscan-bottom , #overscan-bottom svg {
 		bottom : 0;
 	}
 
@@ -310,10 +327,10 @@
 		top : 0;
 		bottom : 0;
 	}
-	#overscan-left {
+	#overscan-left , #overscan-left svg {
 		left : 0;
 	}
-	#overscan-right {
+	#overscan-right , #overscan-right svg {
 		right : 0;
 	}
 
