@@ -5,8 +5,6 @@
 	<title>testcard.html</title>
 	<meta name="description" content="testcard.html" />
 	<meta name="author" content="Xavier “dascritch” Mouton-Dubosc" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 </head>
@@ -14,14 +12,18 @@
 <body>
 
 	<section>
-		<p>display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx</p>
+		<p>
+			display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var>
+			—
+			<var id="pixels_ratio">1</var> dppx
+		</p>
 	</section>
 
 	<section>
-			<p>
-			<!-- http://beesandbombs.tumblr.com - ->
-			< img src="http://38.media.tumblr.com/fa43059b1b5009a52f3e963ff99663b4/tumblr_n83pfhqy0J1r2geqjo1_500.gif" alt="" /-->
-			</p>
+		<p>
+		<!-- http://beesandbombs.tumblr.com - ->
+		< img src="http://38.media.tumblr.com/fa43059b1b5009a52f3e963ff99663b4/tumblr_n83pfhqy0J1r2geqjo1_500.gif" alt="" /-->
+		</p>
 	</section>
 
 			<!-- from http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/ -->
@@ -130,7 +132,7 @@
 				<rect x="113" y="0" width="280" height="80" class="test_sharpnessO" />
 				<rect x="116" y="0" width="280" height="80" class="test_sharpnessI" />
 				<rect x="119" y="0" width="280" height="80" class="test_sharpnessO" />
-				
+
 				<rect x="122" y="0" width="280" height="80" class="test_sharpnessI" />
 				<rect x="126" y="0" width="280" height="80" class="test_sharpnessO" />
 				<rect x="130" y="0" width="280" height="80" class="test_sharpnessI" />
@@ -192,16 +194,16 @@
 
 	<aside>
 		<svg id="overscan-top" xmlns="http://www.w3.org/2000/svg" version="1.1" >
-			<polygon points="500,0 480,40 520,40"/>
+			<polygon points="500,0 480,40 520,40" />
 		</svg>
 		<svg id="overscan-left" xmlns="http://www.w3.org/2000/svg" version="1.1" >
-			<polygon points="0,500 40,480 40,520"/>
+			<polygon points="0,500 40,480 40,520" />
 		</svg>
 		<svg id="overscan-right" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			<polygon points="500,40 480,0 520,0"/>
+			<polygon points="40,500 0,480 0,520" />
 		</svg>
 		<svg id="overscan-bottom" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			<polygon points="40,500 0,480 0,520"/>
+			<polygon points="500,40 480,0 520,0" />
 		</svg>
 	</aside>
 
@@ -318,7 +320,6 @@
 </style>
 
 <script>
-
 	function testcard_pixels_check() {
 		document.getElementById('pixels_horizontal').innerHTML = window.innerHeight;
 		document.getElementById('pixels_vertical').innerHTML = window.innerWidth;
@@ -326,7 +327,6 @@
 	}
 	testcard_pixels_check();
 	window.addEventListener('resize',testcard_pixels_check)
-
 </script>
 
 </body>
