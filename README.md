@@ -8,7 +8,6 @@ Inspired by http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-
 
 TODO
 ----
-* centering overscanners
 * vertical finesse grid
 * dynamic finess grid
 * switching backound pictures

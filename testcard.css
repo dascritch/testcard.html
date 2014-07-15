@@ -1,0 +1,123 @@
+@font-face {
+	font-family: 'Titillium Web'; font-style: normal; font-weight: 400;
+	src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(dascritch-theme/TitilliumWeb-Regular.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: normal; font-weight: 600;
+	src: local('Titillium WebSemiBold'), local('TitilliumWeb-SemiBold'), url(dascritch-theme/TitilliumWeb-SemiBold.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: normal; font-weight: 700;
+	src: local('Titillium WebBold'), local('TitilliumWeb-Bold'), url(dascritch-theme/TitilliumWeb-Bold.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: normal; font-weight: 900;
+	src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url(dascritch-theme/TitilliumWeb-Black.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: italic; font-weight: 400;
+	src: local('Titillium WebItalic'), local('TitilliumWeb-Italic'), url(dascritch-theme/TitilliumWeb-Italic.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: italic; font-weight: 600;
+	src: local('Titillium WebSemiBold Italic'), local('TitilliumWeb-SemiBoldItalic'), url(dascritch-theme/TitilliumWeb-SemiBoldItalic.ttf) format('ttf');
+}
+@font-face {
+	font-family: 'Titillium Web'; font-style: italic; font-weight: 700;
+	src: local('Titillium WebBold Italic'), local('TitilliumWeb-BoldItalic'), url(dascritch-theme/TitilliumWeb-BoldItalic.ttf) format('ttf');
+}
+
+html, * {
+	font-family: 'Titillium Web', sans-serif ;
+	padding : 0;
+	margin : 0;
+	border : 0;
+	text-decoration : none;
+}
+
+body {
+	font-size : 2em;
+	background : #777777;
+	font-weight : bold;
+	color : #f9f9f9;
+}
+
+section {
+	text-align : center;
+	margin : 3em auto;
+}
+
+#charts {
+	position : fixed;
+	bottom : 10%;
+	width : 100%;
+}
+
+#charts p {
+	display : inline-block;
+}
+#charts svg {
+	display : block;
+}
+svg {
+	background : black;
+}
+rect {
+	stroke : 0;
+}
+.test_sharpnessO {
+	fill : #000000;
+}
+.test_sharpnessI {
+	fill : #9f9f9f;
+}
+
+aside div {
+	position : fixed;
+	background : black;
+}
+
+aside svg {
+	position : relative;
+	width : 40px;
+	height : 40px;
+}
+
+aside polygon {
+	fill : #777777;
+}
+
+#overscan-top, #overscan-bottom {
+	width : 100%;
+	height : 40px;
+	left : 0;
+	right : 0;
+}
+
+#overscan-top , #overscan-top svg {
+	top : 0;
+}
+#overscan-bottom , #overscan-bottom svg {
+	bottom : 0;
+}
+#overscan-top svg , #overscan-bottom svg {
+	left : 50%;
+	left : calc(50% - 20px);
+}
+
+#overscan-left, #overscan-right {
+	height : 100%;
+	width : 40px;
+	top : 0;
+	bottom : 0;
+}
+#overscan-left , #overscan-left svg {
+	left : 0;
+}
+#overscan-right , #overscan-right svg {
+	right : 0;
+}
+#overscan-left svg , #overscan-right svg {
+	top : 50%;
+	top : calc(50% - 20px);
+}
