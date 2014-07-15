@@ -298,8 +298,6 @@
 
 	aside svg {
 		position : relative;
-		top : 50%;
-		left : 50%;
 		width : 40px;
 		height : 40px;
 	}
@@ -310,20 +308,24 @@
 
 	#overscan-top, #overscan-bottom {
 		width : 100%;
-		height : 2em;
+		height : 40px;
 		left : 0;
 		right : 0;
 	}
+
 	#overscan-top , #overscan-top svg {
 		top : 0;
 	}
 	#overscan-bottom , #overscan-bottom svg {
 		bottom : 0;
 	}
+	#overscan-top svg , #overscan-bottom svg {
+		left : 50%;
+	}
 
 	#overscan-left, #overscan-right {
 		height : 100%;
-		width : 2em;
+		width : 40px;
 		top : 0;
 		bottom : 0;
 	}
@@ -332,6 +334,9 @@
 	}
 	#overscan-right , #overscan-right svg {
 		right : 0;
+	}
+	#overscan-left svg , #overscan-right svg {
+		top : 50%;
 	}
 
 </style>
