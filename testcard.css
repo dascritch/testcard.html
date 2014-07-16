@@ -41,17 +41,30 @@ body {
 	font-weight : bold;
 	color : #f9f9f9;
 	padding : 40px;
+	overflow : hidden;
+}
+
+main {
+	position : fixed;
+	width : 100%;
+	width : calc(100% - 80px);
+	height : 100%;
+	height : calc(100% - 80px);
 }
 
 section {
+	position : absolute;
 	text-align : center;
 	margin : 3em auto;
 	width : 80%;
 	width : calc(100% - 80px);
 }
 
+#rez {
+	top : 1em;
+}
+
 #charts {
-	position : absolute;
 	bottom : 1em;
 }
 
