@@ -147,6 +147,15 @@ aside polygon {
 	}
 }
 
+@media (max-height : 800px) and (max-width : 800px) {
+	body {
+		font-size : 1.5em;
+	}
+	#charts span {
+		display : none;
+	}
+}
+
 @media (min-height : 1000px) and (min-width : 1000px) {
 	body {
 		font-size : 2.5em;
