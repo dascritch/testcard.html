@@ -16,6 +16,7 @@ TODO
 * switching backound pictures
 * slide script generator
 * audio sync addon
+* audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
 
 Licence
 -------

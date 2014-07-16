@@ -40,17 +40,19 @@ body {
 	background : #777777;
 	font-weight : bold;
 	color : #f9f9f9;
+	padding : 40px;
 }
 
 section {
 	text-align : center;
 	margin : 3em auto;
+	width : 80%;
+	width : calc(100% - 80px);
 }
 
 #charts {
-	position : fixed;
-	bottom : 10%;
-	width : 100%;
+	position : absolute;
+	bottom : 1em;
 }
 
 #charts p {
@@ -111,6 +113,7 @@ aside polygon {
 	top : 0;
 	bottom : 0;
 }
+
 #overscan-left , #overscan-left svg {
 	left : 0;
 }
@@ -120,4 +123,19 @@ aside polygon {
 #overscan-left svg , #overscan-right svg {
 	top : 50%;
 	top : calc(50% - 20px);
+}
+
+@media (max-height : 600px) and (max-width : 600px) {
+	body {
+		font-size : 1em;
+	}
+	#charts span {
+		display : none;
+	}
+}
+
+@media (min-height : 1000px) and (min-width : 1000px) {
+	body {
+		font-size : 2.5em;
+	}
 }
