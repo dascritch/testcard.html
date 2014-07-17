@@ -13,10 +13,21 @@ TODO
 ----
 * vertical sharpness grid
 * dynamic sharpness grid
-* switching backound pictures
+* switching background pictures
 * slide script generator
 * audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
+
+Parameters
+----------
+Those values are globals or by scene.
+* `back` : colour of the background in #RGB value. neutral gray by default.
+* `img` : URL for the background image
+* `video` : URL for the video. Autoplayed
+* `charts` : TODO displayed charts. No more than 3 or 4
+* `time` : TODO time format
+* `countdownfor` : TODO time displayed is a countdown for the indicated unix timestamp
+* `synctop` : TODO parameters for the `synctop` chart
 
 Licence
 -------

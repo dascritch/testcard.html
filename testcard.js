@@ -16,8 +16,13 @@ if (data !== null) {
 var index = 0;
 var scenesTypes = ['img','youtube','video'];
 
-for (var index in parameters) {
-	var scene = parameters[index];
+
+if (parameters.back !== undefined) {
+	main.style.backgroundColor = parameters.back;
+}
+
+for (var index in parameters.scenes) {
+	var scene = parameters.scenes[index];
 	console.log('scene ' , index,scene)
 	for (var t in scenesTypes) {
 		var mode = scenesTypes[t];
