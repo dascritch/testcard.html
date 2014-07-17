@@ -14,11 +14,24 @@ if (data !== null) {
 	parameters = JSON.parse(data.innerHTML);
 }
 var index = 0;
+var scenesTypes = ['img','youtube','video'];
 
 for (var index in parameters) {
 	var scene = parameters[index];
 	console.log('scene ' , index,scene)
-	if (scene.video !== undefined) {
-		main.innerHTML = '<video src="'+scene.video+'" autoplay></video>';
+	for (var t in scenesTypes) {
+		var mode = scenesTypes[t];
+		if (scene[mode] !== undefined) {
+			switch (mode) {
+					/*
+				case 'img' :
+					main.innerHTML = '<img src="'+scene.img+'" alt="" class="fullCroped" />';
+					break;
+				case 'video' :
+					main.innerHTML = '<video src="'+scene.video+'" autoplay class="fullAdapt"></video>';
+					break;
+					*/
+			}
+		}
 	}
 }
