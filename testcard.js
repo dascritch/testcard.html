@@ -16,14 +16,20 @@ if (data !== null) {
 var index = 0;
 var scenesTypes = ['img','youtube','video'];
 
-
-if (parameters.back !== undefined) {
-	main.style.backgroundColor = parameters.back;
+function mergewith(obj1,obj2) {
+	for(var i in obj2) {
+		obj1[i] = obj2[i];
+	}
+	return obj1;
 }
 
+
 for (var index in parameters.scenes) {
-	var scene = parameters.scenes[index];
-	console.log('scene ' , index,scene)
+	console.log( parameters.default , parameters.scenes[index], parameters.default + parameters.scenes[index])
+	var scene = mergewith( parameters.default , parameters.scenes[index]);
+	if (scene.back !== undefined) {
+		main.style.backgroundColor = scene.back;
+	}
 	for (var t in scenesTypes) {
 		var mode = scenesTypes[t];
 		if (scene[mode] !== undefined) {
