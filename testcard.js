@@ -23,10 +23,13 @@ function mergewith(obj1,obj2) {
 	return obj1;
 }
 
+var defaults = {
+	back : '#777777'
+}
 
 for (var index in parameters.scenes) {
 	console.log( parameters.default , parameters.scenes[index], parameters.default + parameters.scenes[index])
-	var scene = mergewith( parameters.default , parameters.scenes[index]);
+	var scene = mergewith( defaults , mergewith( parameters.default , parameters.scenes[index]) );
 	if (scene.back !== undefined) {
 		main.style.backgroundColor = scene.back;
 	}
