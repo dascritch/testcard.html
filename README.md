@@ -17,6 +17,7 @@ TODO
 * slide script generator
 * audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
+* dynamic slide source (via webcapture)
 
 Parameters
 ----------
