@@ -19,6 +19,10 @@ TODO
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
 * dynamic slide source (via webcapture)
 
+Known bugs
+----------
+* The « dppx » value on Safari desktop is not accurate when zooming
+
 Parameters
 ----------
 Those values are globals or by scene.
