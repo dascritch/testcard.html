@@ -11,6 +11,7 @@
 		parameters : {},
 		main : document.querySelector('main'),
 		scene_index : 0,
+		timer_interrupts : false,
 		mergeArrays : function (obj1,obj2) {
 			var out = {};
 			for(var i in obj1) {
@@ -39,6 +40,14 @@
 				var chart_name = this.available_charts[i];
 				var chart = document.getElementById(chart_name);
 				chart.style.display = (scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
+			}
+
+			if ((scene.charts.indexOf('time') !== -1) && (this.timer_interrupts === false) ) {
+				this.timer_interrupts = window.setInterval(TC.time_refresh,50)
+			}
+
+			if ((scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
+				window.clearInterval(this.timer_interrupts);
 			}
 
 			var has = false;
@@ -92,6 +101,6 @@ TC.pixels_check();
 
 document.addEventListener('keydown',TC.keyboard);
 window.addEventListener('resize',TC.pixels_check)
-window.setInterval(TC.time_refresh,50)
+
 
 })();
