@@ -53,6 +53,7 @@
 
 			if ((scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
 				window.clearInterval(this.timer_interrupts);
+				this.timer_interrupts = false;
 			}
 
 			var has = false;
