@@ -6,7 +6,7 @@ var defaults = {
 		charts		: ["contrast" , "sharpness" , "colour"]
 }
 
-var available_charts = ["contrast" , "sharpness" , "colour"];
+var available_charts = ["contrast", "sharpness", "colour", "time"];
 var parameters;
 var main = document.querySelector('main');
 var data = document.querySelector('script[type="text/json"]');
@@ -44,7 +44,7 @@ function testcard(scene) {
 	for (var i in available_charts) {
 		var chart_name = available_charts[i];
 		var chart = document.getElementById(chart_name);
-		chart.style.display = (scene.charts.indexOf(chart_name) >= 0 ) ? 'inline-block' : 'none';
+		chart.style.display = (scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
 	}
 
 	var has = false;
