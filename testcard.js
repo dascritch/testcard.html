@@ -8,12 +8,14 @@
 
 	var TC = {
 		defaults : {
-				back		: '#777777',
-				charts		: ['contrast', 'sharpness', 'colour']
+			back		: '#777777',
+			charts		: ['contrast', 'sharpness', 'colour'],
+			time		: "hh:mm:ss"
 		},
 		available_charts : ['contrast', 'sharpness', 'colour', 'time'],
 		available_scenes : ['img','video','youtube','vimeo','capture'],
 		parameters : {},
+		scene : {},
 		main : document.querySelector('main'),
 		scene_index : 0,
 		timer_interrupts : false,
@@ -32,26 +34,39 @@
 			document.getElementById('pixels_vertical').innerHTML = window.innerHeight;
 			document.getElementById('pixels_ratio').innerHTML = window.devicePixelRatio.toFixed(2);
 		},
-		time_refresh : function() {
-			var ms = Date.now();
-			document.getElementById('timer').textContent = Math.floor(ms / 1000);
+		twodigits : function(num) {
+			return num<10 ? ('0' + num) : num;
 		},
-		testcard : function(scene) {
+		time_refresh : function() {
+			var d = new Date(); 
+			var ms = Date.now();
+			var out = Math.floor(ms / 1000);
+			var s = Math.floor(ms / 1000 ) %60;
+			var m = Math.floor(ms / 60000 ) %60;
+			var h = Math.floor( (ms / 3600000  )- d.getTimezoneOffset() / 60) %24 ;
+			switch( TC.scene.time) {
+				case 'hh:mm:ss' :
+					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s)
+					break;
+			}
+			document.getElementById('timer').textContent = out;
+		},
+		testcard : function() {
 			// setting background
-			this.main.style.backgroundColor = scene.back;
+			this.main.style.backgroundColor = this.scene.back;
 			this.main.innerHTML='';
 
 			for (var i in this.available_charts) {
 				var chart_name = this.available_charts[i];
 				var chart = document.getElementById(chart_name);
-				chart.style.display = (scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
+				chart.style.display = (this.scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
 			}
 
-			if ((scene.charts.indexOf('time') !== -1) && (this.timer_interrupts === false) ) {
+			if ((this.scene.charts.indexOf('time') !== -1) && (this.timer_interrupts === false) ) {
 				this.timer_interrupts = window.setInterval(TC.time_refresh,50)
 			}
 
-			if ((scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
+			if ((this.scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
 				window.clearInterval(this.timer_interrupts);
 				this.timer_interrupts = false;
 			}
@@ -59,19 +74,19 @@
 			var has = false;
 			for (var t in this.available_scenes) {
 				var mode = this.available_scenes[t];
-				if ((!has) && (scene[mode] !== undefined)) {
+				if ((!has) && (this.scene[mode] !== undefined)) {
 					switch (mode) {
 						case 'img' :
-							this.main.innerHTML = '<img src="'+scene.img+'" alt="" class="fullCroped" />';
+							this.main.innerHTML = '<img src="'+this.scene.img+'" alt="" class="fullCroped" />';
 							break;
 						case 'video' :
-							this.main.innerHTML = '<video src="'+scene.video+'" autoplay class="fullAdapt"></video>';
+							this.main.innerHTML = '<video src="'+this.scene.video+'" autoplay class="fullAdapt"></video>';
 							break;
 						case 'youtube' :
-							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://www.youtube-nocookie.com/embed/'+scene.youtube+'?rel=0" frameborder="0" allowfullscreen></iframe>';
+							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0" frameborder="0" allowfullscreen></iframe>';
 							break;
 						case 'vimeo' :
-							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://player.vimeo.com/video/'+scene.vimeo+'" frameborder="0" allowfullscreen></iframe>';
+							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://player.vimeo.com/video/'+this.scene.vimeo+'" frameborder="0" allowfullscreen></iframe>';
 							break;
 						case 'capture' :
 							this.main.innerHTML = '<video id="playback" class="fullAdapt"></video>';
@@ -105,10 +120,10 @@
 			}
 		},
 		play : function() {
-			var scene = this.mergeArrays( this.defaults ,
-							 this.mergeArrays( this.parameters.default ,
+			this.scene = this.mergeArrays( this.defaults ,
+							this.mergeArrays( this.parameters.default ,
 								this.parameters.scenes[this.scene_index]) );
-			this.testcard(scene);
+			this.testcard();
 		},
 		keyboard : function(event) {
 			var self = TC;
