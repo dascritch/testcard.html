@@ -12,7 +12,7 @@
 				charts		: ['contrast', 'sharpness', 'colour']
 		},
 		available_charts : ['contrast', 'sharpness', 'colour', 'time'],
-		available_scenes : ['img','youtube','video'],
+		available_scenes : ['img','video','youtube','vimeo','capture'],
 		parameters : {},
 		main : document.querySelector('main'),
 		scene_index : 0,
@@ -70,6 +70,35 @@
 						case 'youtube' :
 							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://www.youtube-nocookie.com/embed/'+scene.youtube+'?rel=0" frameborder="0" allowfullscreen></iframe>';
 							break;
+						case 'vimeo' :
+							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://player.vimeo.com/video/'+scene.vimeo+'" frameborder="0" allowfullscreen></iframe>';
+							break;
+						case 'capture' :
+							this.main.innerHTML = '<video id="playback" class="fullAdapt"></video>';
+							var video = document.getElementById('playback');
+
+							navigator.getMedia = ( navigator.getUserMedia ||
+													navigator.webkitGetUserMedia ||
+													navigator.mozGetUserMedia ||
+													navigator.msGetUserMedia);
+
+							navigator.getMedia(
+								{
+									video: true,
+									audio: false
+								},function(stream) {
+									if (navigator.mozGetUserMedia) {
+										video.mozSrcObject = stream;
+									} else {
+										var vendorURL = window.URL || window.webkitURL;
+										video.src = vendorURL.createObjectURL(stream);
+										video.play();
+									}
+								},
+								function(err) {
+									console.log("An error occured! " + err);
+								});
+							break;
 					}
 					has = true;
 				}
@@ -78,7 +107,7 @@
 		play : function() {
 			var scene = this.mergeArrays( this.defaults ,
 							 this.mergeArrays( this.parameters.default ,
-							 	this.parameters.scenes[this.scene_index]) );
+								this.parameters.scenes[this.scene_index]) );
 			this.testcard(scene);
 		},
 		keyboard : function(event) {
