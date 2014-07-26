@@ -96,17 +96,15 @@
 		}
 	}
 
-
 	var data = document.querySelector('script[type="text/json"]');
 	if (data !== null) {
 		TC.parameters = JSON.parse(data.innerHTML);
 	}
 
-TC.play();
-TC.pixels_check();
+	TC.play();
+	TC.pixels_check();
 
-document.addEventListener('keydown',TC.keyboard);
-window.addEventListener('resize',TC.pixels_check)
-
+	document.addEventListener('keydown',TC.keyboard);
+	window.addEventListener('resize',TC.pixels_check)
 
 })();
