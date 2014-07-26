@@ -9,6 +9,15 @@ Inspired by an original design by [Ryan Gilmore](http://www.urbanspaceman.net/ur
 
 Version 0.2
 
+WARNING
+-------
+Browsers are not acurate viedo renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others !
+This code is only for testing projections, and also unveil some rendering bugs on browsers
+
+Known bugs
+----------
+* The « dppx » value on Safari desktop is not accurate when zooming
+
 TODO
 ----
 * vertical sharpness grid
@@ -17,10 +26,6 @@ TODO
 * audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
 * dynamic slide source (via webcapture)
-
-Known bugs
-----------
-* The « dppx » value on Safari desktop is not accurate when zooming
 
 Parameters
 ----------
