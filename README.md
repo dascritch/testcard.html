@@ -7,13 +7,12 @@ Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
 Inspired by an original design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
-Version 0.1
+Version 0.2
 
 TODO
 ----
 * vertical sharpness grid
 * dynamic sharpness grid
-* switching background pictures
 * slide script generator
 * audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
@@ -43,6 +42,7 @@ Design derivated from Ryan Gilmore, rights to be cleared
 
 Versions
 --------
+* July 2014 : 0.2 , json parameters embeded in html.
 * June 2014 : 0.1 , first release.
   * static html.
   * Contrast, h-sharpness, colours charts

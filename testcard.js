@@ -6,6 +6,7 @@ var defaults = {
 		charts		: ["contrast" , "sharpness" , "colour"]
 }
 
+var available_charts = ["contrast" , "sharpness" , "colour"];
 var parameters;
 var main = document.querySelector('main');
 var data = document.querySelector('script[type="text/json"]');
@@ -28,12 +29,23 @@ function testcard_pixels_check() {
 	document.getElementById('pixels_ratio').innerHTML = window.devicePixelRatio.toFixed(2);
 }
 
+function testcard_time_refresh() {
+	var ms = Date.now();
+	document.getElementById('timer').textContent = Math.floor(ms / 1000);
+}
+
 function testcard(scene) {
 	var scenesTypes = ['img','youtube','video'];
 
 	// setting background
 	main.style.backgroundColor = scene.back;
 	main.innerHTML='';
+
+	for (var i in available_charts) {
+		var chart_name = available_charts[i];
+		var chart = document.getElementById(chart_name);
+		chart.style.display = (scene.charts.indexOf(chart_name) >= 0 ) ? 'inline-block' : 'none';
+	}
 
 	var has = false;
 	for (var t in scenesTypes) {
@@ -61,7 +73,7 @@ function goto_scene(scene_index) {
 }
 
 function keyboard(event) {
-		switch ( event.keyCode ) {
+	switch ( event.keyCode ) {
 		case 37 :
 			scene_index = scene_index < 0 ? parameters.scenes.length : --scene_index;
 			goto_scene(scene_index);
@@ -82,6 +94,6 @@ testcard_pixels_check();
 
 document.addEventListener('keydown',keyboard);
 window.addEventListener('resize',testcard_pixels_check)
-
+window.setInterval(testcard_time_refresh,100)
 
 })();

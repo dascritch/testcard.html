@@ -7,13 +7,15 @@
 	<meta name="author" content="Xavier “dascritch” Mouton-Dubosc" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" href="testcard.css" />
-	<script id="script1" type="text/json">
+	<script type="text/json">
 	{
 		"default" : {
 			"charts" : ["contrast" , "sharpness" , "colour"]
 		},
 		"scenes" : [
 			{
+			},{
+			"charts" : ["colour","time"]
 			},{
 				"img" : "http://38.media.tumblr.com/fa43059b1b5009a52f3e963ff99663b4/tumblr_n83pfhqy0J1r2geqjo1_500.gif",
 				"charts" : ["contrast" , "sharpness" , "time"],
@@ -51,9 +53,6 @@
 <body>
 
 	<main>
-		<!--iframe width="100%" height="100%" src="http://www.youtube-nocookie.com/embed/kxopViU98Xo?rel=0" frameborder="0" allowfullscreen></iframe -->
-		<!-- img src="http://38.media.tumblr.com/fa43059b1b5009a52f3e963ff99663b4/tumblr_n83pfhqy0J1r2geqjo1_500.gif" alt="" /-->
-		<!-- video src="" autoplay width="100%" height="100%"></video -->
 	</main>
 
 	<section id="rez">
@@ -66,7 +65,7 @@
 
 			<!-- from http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/ -->
 	<section id="charts">
-		<p>
+		<p id="contrast">
 			<span>Contrast</span>
 			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
 				<rect x="0" y="0" width="280" height="80" fill="#252525" />
@@ -91,7 +90,7 @@
 			</svg>
 		</p>
 
-		<p>
+		<p id="sharpness">
 			<span>Sharpness</span>
 			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
 				<rect x="0" y="0" width="280" height="80" class="test_sharpnessI" />
@@ -208,7 +207,7 @@
 			</svg>
 		</p>
 
-		<p>
+		<p id="colour">
 			<span>Colour</span>
 			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
 				<rect x="0" y="0" width="280" height="80" fill="#0000c0" />
@@ -228,6 +227,22 @@
 				<rect x="240" y="40" width="40" height="40" fill="#ffffff" />
 			</svg>
 		</p>
+
+		<p id="time">
+			<span>&nbsp;</span>
+			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
+				<rect x="0" y="0" width="280" height="80" fill="#000000" />
+				<text id="timer" x="140" y="50"
+			        style="font-family: monospaced;
+			               font-size  : 48px;
+			               fill       : #00ff00;
+			               text-anchor: middle;
+			               vertical-align: middle;">
+			    	00:00:00:00
+			  </text>
+			</svg>
+		</p>
+
 	</section>
 
 	<aside>
