@@ -1,3 +1,8 @@
+// Author : Xavier “dascritch” Mouton-Dubosc http://dascritch.com
+// Inspired by an original design by Ryan Gilmore http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/
+// Licence still not cleared
+// Repository : https://github.com/dascritch/testcard.html
+
 (function(){
 "use strict";
 
