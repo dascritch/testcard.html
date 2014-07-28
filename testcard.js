@@ -38,16 +38,32 @@
 			return num<10 ? ('0' + num) : num;
 		},
 		time_refresh : function() {
-			var d = new Date(); 
+			var d = new Date();
 			var ms = Date.now();
+			/*
+			if (TC.scene.countdownfor.length > 1) {
+console.log(TC.scene.countdownfor , Date(TC.scene.countdownfor));
+				ms = ms -  Date(TC.scene.countdownfor);
+			}*/
 			var out = Math.floor(ms / 1000);
+			var cs = Math.floor((ms % 1000) / 10 );
 			var s = Math.floor(ms / 1000 ) %60;
 			var m = Math.floor(ms / 60000 ) %60;
 			var h = Math.floor( (ms / 3600000  )- d.getTimezoneOffset() / 60) %24 ;
 			switch( TC.scene.time) {
 				case 'hh:mm:ss' :
-					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s)
+					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s);
 					break;
+				case 'hh:mm:ss:cc' :
+					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s) + ':' + TC.twodigits(cs);
+					break;
+				case 'hh:mm:ss:ff' :
+					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s) + ':' + TC.twodigits(Math.round(cs/4));
+					break;
+				case 'hexnolife' :
+					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
+					break;
+
 			}
 			document.getElementById('timer').textContent = out;
 		},
