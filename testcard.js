@@ -19,6 +19,7 @@
 		main : document.querySelector('main'),
 		scene_index : 0,
 		timer_interrupts : false,
+		countdown : false,
 		mergeArrays : function (obj1,obj2) {
 			var out = {};
 			for(var i in obj1) {
@@ -40,12 +41,12 @@
 		time_refresh : function() {
 			var d = new Date();
 			var ms = Date.now();
-			/*
-			if (TC.scene.countdownfor.length > 1) {
-console.log(TC.scene.countdownfor , Date(TC.scene.countdownfor));
-				ms = ms -  Date(TC.scene.countdownfor);
-			}*/
-			var out = Math.floor(ms / 1000);
+
+			if (TC.countdown !== false ) {
+				ms = Math.abs(TC.countdown - ms);
+			}
+
+			var out;
 			var cs = Math.floor((ms % 1000) / 10 );
 			var s = Math.floor(ms / 1000 ) %60;
 			var m = Math.floor(ms / 60000 ) %60;
@@ -62,8 +63,11 @@ console.log(TC.scene.countdownfor , Date(TC.scene.countdownfor));
 					break;
 				case 'hexnolife' :
 					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
+					if (out.length < 6 ) out = '000000'.substr(out.length) + out;
 					break;
-
+				case 'unix' :
+				default:
+					out = Math.floor(ms / 1000);
 			}
 			document.getElementById('timer').textContent = out;
 		},
@@ -85,6 +89,11 @@ console.log(TC.scene.countdownfor , Date(TC.scene.countdownfor));
 			if ((this.scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
 				window.clearInterval(this.timer_interrupts);
 				this.timer_interrupts = false;
+			}
+
+			this.countdown = false;
+			if (this.scene.countdownfor !== undefined) {
+								this.countdown = Date.parse(new Date().toISOString().substr(0,11) + TC.scene.countdownfor + 'Z') + (new Date().getTimezoneOffset() *60000 *2) ;
 			}
 
 			var has = false;
