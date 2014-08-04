@@ -9,10 +9,10 @@
 	var TC = {
 		defaults : {
 			back		: '#777777',
-			charts		: ['contrast', 'sharpness', 'colour'],
+			charts		: ['contrast', 'sharpnessh', 'colour'],
 			time		: "hh:mm:ss"
 		},
-		available_charts : ['contrast', 'sharpness', 'colour', 'time'],
+		available_charts : ['contrast', 'sharpness', 'sharpnessh', 'colour', 'time'],
 		available_scenes : ['img','video','youtube','vimeo','capture'],
 		parameters : {},
 		scene : {},
@@ -71,7 +71,55 @@
 			}
 			document.getElementById('timer').textContent = out;
 		},
-		testcard : function() {
+		appendSvg : function (el,nom,attributs) {
+			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
+			var svg = document.createElementNS("http://www.w3.org/2000/svg",nom);
+			for (var cle in attributs) {
+				var valeur = attributs[cle];
+				svg.setAttribute(cle,valeur);
+			}
+			el.appendChild(svg);
+			return svg;
+		},
+		build_sharpness : function() {
+			var elb = document.querySelector('#sharpness svg');
+			var elh = document.querySelector('#sharpnessh svg');
+			var elv = document.querySelector('#sharpnessv svg');
+			var x = 0;
+			var cl = 0;
+			var pars = {
+					'y'			: 0,
+					'width'		: 280,
+					'height'	: 80
+				};
+			while (x<280) {
+				pars.x = x;
+				pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+				this.appendSvg(elh,'rect',pars);
+				this.appendSvg(elb,'rect',pars);
+				cl++;
+				x += Math.floor(x / 40) +1;
+			}
+			var y;
+			for (x=0 ; x<=6 ; x++) {
+				y = 0;
+				cl = 0;
+				pars.x = x * 40;
+				while (y<80) {
+					pars.y = y;
+					pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+					this.appendSvg(elv,'rect',pars);
+					pars.y = y + 40;
+					this.appendSvg(elb,'rect',pars);
+					y += x+1;
+					cl++;
+				}
+			}
+		},
+		build : function() {
+			this.build_sharpness();
+		},
+		screen : function() {
 			// setting background
 			this.main.style.backgroundColor = this.scene.back;
 			this.main.innerHTML='';
@@ -148,7 +196,7 @@
 			this.scene = this.mergeArrays( this.defaults ,
 							this.mergeArrays( this.parameters.default ,
 								this.parameters.scenes[this.scene_index]) );
-			this.testcard();
+			this.screen();
 		},
 		keyboard : function(event) {
 			var self = TC;
@@ -170,6 +218,7 @@
 		TC.parameters = JSON.parse(data.innerHTML);
 	}
 
+	TC.build();
 	TC.play();
 	TC.pixels_check();
 
