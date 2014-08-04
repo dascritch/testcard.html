@@ -109,8 +109,10 @@
 					pars.y = y;
 					pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
 					this.appendSvg(elv,'rect',pars);
-					pars.y = y + 40;
-					this.appendSvg(elb,'rect',pars);
+					if (y <= 40) {
+						pars.y = y + 40;
+						this.appendSvg(elb,'rect',pars);
+					}
 					y += x+1;
 					cl++;
 				}
