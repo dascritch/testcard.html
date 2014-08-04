@@ -9,10 +9,10 @@
 	var TC = {
 		defaults : {
 			back		: '#777777',
-			charts		: ['contrast', 'sharpnessh', 'colour'],
+			charts		: ['contrast', 'sharpness', 'colour'],
 			time		: "hh:mm:ss"
 		},
-		available_charts : ['contrast', 'sharpness', 'sharpnessh', 'colour', 'time'],
+		available_charts : ['contrast', 'sharpness', 'sharpnessh', 'sharpnessv', 'colour', 'time'],
 		available_scenes : ['img','video','youtube','vimeo','capture'],
 		parameters : {},
 		scene : {},

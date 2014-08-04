@@ -7,7 +7,7 @@ Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
 Inspired by an original design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
-Version 0.2
+Version 0.3pre
 
 WARNING
 -------
@@ -20,8 +20,6 @@ Known bugs
 
 TODO
 ----
-* vertical sharpness grid
-* dynamic sharpness grid
 * slide script generator
 * audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
@@ -36,8 +34,8 @@ Those values are globals or by scene.
 * `youtube` : ID for a Youtube video.
 * `vimeo` : ID for a Vimeo video.
 * `capture` : Mirorring the webcam
-* `charts` : TODO displayed charts. No more than 3 or 4
-* `time` : TODO time format
+* `charts` : displayed charts. No more than 3 or 4
+* `time` : time format
 * `countdownfor` : TODO time displayed is a countdown for the indicated unix timestamp
 * `synctop` : TODO parameters for the `synctop` chart
 
