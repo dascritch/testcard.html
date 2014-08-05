@@ -11,7 +11,7 @@ Version 0.3pre
 
 WARNING
 -------
-Browsers are not acurate viedo renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others !
+Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters !
 This code is only for testing video-projections before talks, and also unveils some rendering bugs on browsers
 
 Known bugs
@@ -38,6 +38,12 @@ Those values are globals or by scene.
 * `time` : time format
 * `countdownfor` : TODO time displayed is a countdown for the indicated unix timestamp
 * `synctop` : TODO parameters for the `synctop` chart
+
+Those values are purely global and cannot be changed per scene
+* `labels` : list of tags for each chart
+* `stylesheet` : URL of a special crafted style, better use by include the original one
+* `colours` : list of rgb-hex values fot colour chart
+* `contrasts` : list of rgb-hex values fot contrast chart
 
 Licence
 -------
