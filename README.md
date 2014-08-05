@@ -33,6 +33,7 @@ TODO
 Parameters
 ----------
 Those values are globals or by scene.
+
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
 |`back`   |Colour of the background in RGB-hex value.         |'777777'|
@@ -47,6 +48,7 @@ Those values are globals or by scene.
 |`synctop`|TODO parameters for the `synctop` chart            ||
 
 Those values are purely global and cannot be changed per scene
+
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
 |`labels` |List of tags for each chart                        |British english|
