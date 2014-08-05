@@ -8,7 +8,7 @@
 
 	var TC = {
 		defaults : {
-			back		: '#777777',
+			back		: '777777',
 			charts		: ['contrast', 'sharpness', 'colour'],
 			time		: "hh:mm:ss",
 			// here is how to change chart names. NOTE this is only for default, never for scenes
@@ -38,6 +38,7 @@
 		timezoneoffset		: 0,
 		chart_squsize 		: 40,
 		scene_element		: null,
+		chart_svg			: {},
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -49,9 +50,9 @@
 			return out;
 		},
 		pixels_check : function() {
-			document.getElementById('pixels_horizontal').innerHTML = window.innerWidth;
-			document.getElementById('pixels_vertical').innerHTML = window.innerHeight;
-			document.getElementById('pixels_ratio').innerHTML = window.devicePixelRatio.toFixed(2);
+			document.getElementById('pixels_horizontal').textContent = window.innerWidth;
+			document.getElementById('pixels_vertical').textContent = window.innerHeight;
+			document.getElementById('pixels_ratio').textContent = window.devicePixelRatio.toFixed(2);
 		},
 		twodigits : function(num) {
 			return num<10 ? ('0' + num) : num;
@@ -116,9 +117,6 @@
 			function classname(cl) {
 				return cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
 			}
-			var elb = document.querySelector('#sharpness svg');
-			var elh = document.querySelector('#sharpnessh svg');
-			var elv = document.querySelector('#sharpnessv svg');
 			var x = 0;
 			var cl = 0;
 			var pars = {
@@ -129,8 +127,8 @@
 			while (x<280) {
 				pars.x = x;
 				pars['class'] = classname(cl);
-				this.appendSvg(elh,'rect',pars);
-				this.appendSvg(elb,'rect',pars);
+				this.appendSvg(this.chart_svg.sharpnessh,'rect',pars);
+				this.appendSvg(this.chart_svg.sharpness,'rect',pars);
 				cl++;
 				x += Math.floor(x / this.chart_squsize) +1;
 			}
@@ -142,10 +140,10 @@
 				while (y< (this.chart_squsize *2)) {
 					pars.y = y;
 					pars['class'] = classname(cl);
-					this.appendSvg(elv,'rect',pars);
+					this.appendSvg(this.chart_svg.sharpnessv,'rect',pars);
 					if (y <= this.chart_squsize) {
 						pars.y = y + this.chart_squsize;
-						this.appendSvg(elb,'rect',pars);
+						this.appendSvg(this.chart_svg.sharpness,'rect',pars);
 					}
 					y += x+1;
 					cl++;
@@ -153,7 +151,7 @@
 			}
 		},
 		build_squares : function(chartname,range) {
-			var chartzone = document.querySelector('#'+chartname+' svg');
+			var chartzone = this.chart_svg[chartname];
 			for (var c in range) {
 				this.appendSvg(chartzone,'rect', {
 					x		: 0 + this.chart_squsize * (c%7),
@@ -167,11 +165,10 @@
 		build_colours : function() {
 				this.build_squares('colour',this.defaults.colours);
 				this.build_squares('contrast',this.defaults.contrasts);
-				var chart_contrast = document.querySelector('#contrast svg');
 				var magic_circles = { '0':6, '6':0, '7':13, '13':7};
 				for (var i in magic_circles) {
 					var c = magic_circles[i];
-					this.appendSvg(chart_contrast,'circle', {
+					this.appendSvg(this.chart_svg.contrast,'circle', {
 						cx		: this.chart_squsize * ( (c%7) + 0.5),
 						cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
 						r		: this.chart_squsize / 4,
@@ -180,7 +177,7 @@
 				}
 		},
 		build_timer : function() {
-			var chartzone = document.querySelector('#time svg');
+			var chartzone = this.chart_svg.time;
 			this.appendSvg(chartzone,'text', {
 						x	: this.chart_squsize * 3.5,
 						y	: this.chart_squsize * 1.3, // yep, it's piggy-pinched
@@ -189,18 +186,25 @@
 		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
-			this.append(document.body,'link', { rel : "stylesheet" ,  href : this.default.stylesheet });
+			this.append(document.body,'link',{
+				rel		: 'stylesheet' ,
+				href	: this.default.stylesheet
+			});
 
 			this.main = this.append(document.body,'main');
 			this.append(document.body,'section',{id:'rez'});
-			this.append(document.getElementById('rez'),'p',{},'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
+			this.append(document.getElementById('rez'),'p',{},
+					'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
 
-			var chartzone = this.append(document.body,'section',{ id:'charts' });
+			var chartzone = this.append(document.body,'section',{ id : 'charts' });
 			var p;
 			for (var c in this.default.labels) {
 				p = this.append(chartzone,'p',{ id:c });
 				this.append(p,'span',{},this.default.labels[c]);
-				this.appendSvg(p,'svg',{ width:280, height:80 });
+				this.chart_svg[c] = this.appendSvg(p,'svg',{
+					width	: this.chart_squsize*7,
+					height	: this.chart_squsize*2
+				});
 			}
 			this.build_sharpness();
 			this.build_colours();
@@ -208,20 +212,16 @@
 
 			var aside = this.append(document.body,'aside');
 			var asides = {
-				"overscan-top"		: "20,0 0,40 40,40",
-				"overscan-left"		: "0,20 40,0 40,40",
-				"overscan-right"	: "40,20 0,0 0,40",
-				"overscan-bottom"	: "20,40 0,0 40,0",
+				'overscan-top'		: '20,0 0,40 40,40',
+				'overscan-left'		: '0,20 40,0 40,40',
+				'overscan-right'	: '40,20 0,0 0,40',
+				'overscan-bottom'	: '20,40 0,0 40,0',
 			};
 			for (var edge in asides) {
 				var canv = this.appendSvg(
-						this.append(aside,'div',{id:edge}),
+						this.append(aside,'div',{ id : edge }),
 						'svg');
-				//canv.viewBox = "0,0 40,40";
-				this.appendSvg(
-					canv,
-					'polygon',{points:asides[edge]}
-				);
+				this.appendSvg( canv, 'polygon',{ points : asides[edge] } );
 			}
 
 
@@ -236,7 +236,7 @@
 			// this one for MSIE
 			this.main.innerHTML = '';
 
-			this.main.style.backgroundColor = this.scene.back;
+			this.main.style.backgroundColor = '#'+this.scene.back;
 
 			for (var chart_name in this.default.labels) {
 				var chart = document.getElementById(chart_name);
