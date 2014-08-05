@@ -6,7 +6,7 @@
 (function(){
 "use strict";
 
-	var TC = {
+	var self = {
 		defaults : {
 			back		: '777777',
 			charts		: ['contrast', 'sharpness', 'colour'],
@@ -61,24 +61,24 @@
 			var ms = Date.now();
 			var unix = Math.floor(ms / 1000 );
 
-			if (TC.countdown !== false ) {
-				ms = Math.abs(TC.countdown - ms);
+			if (self.countdown !== false ) {
+				ms = Math.abs(self.countdown - ms);
 			}
 
 			var out;
 			var cs = Math.floor((ms % 1000) / 10 );
 			var s = unix %60;
 			var m = Math.floor(unix / 60 ) %60;
-			var h = Math.floor( (unix / 3600  )- TC.timezoneoffset) %24 ;
-			switch( TC.scene.time) {
+			var h = Math.floor( (unix / 3600  )- self.timezoneoffset) %24 ;
+			switch( self.scene.time) {
 				case 'hh:mm:ss' :
-					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s);
+					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s);
 					break;
 				case 'hh:mm:ss:cc' :
-					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s) + ':' + TC.twodigits(cs);
+					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s) + ':' + self.twodigits(cs);
 					break;
 				case 'hh:mm:ss:ff' :
-					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s) + ':' + TC.twodigits(Math.round(cs/4));
+					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s) + ':' + self.twodigits(Math.round(cs/4));
 					break;
 				case 'hexnolife' :
 					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
@@ -244,7 +244,7 @@
 			}
 
 			if ((this.scene.charts.indexOf('time') !== -1) && (this.timer_interrupts === false) ) {
-				this.timer_interrupts = window.setInterval(TC.time_refresh,50)
+				this.timer_interrupts = window.setInterval(self.time_refresh,50)
 			}
 
 			if ((this.scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
@@ -254,7 +254,7 @@
 
 			this.countdown = false;
 			if (this.scene.countdownfor !== undefined) {
-								this.countdown = Date.parse(new Date().toISOString().substr(0,11) + TC.scene.countdownfor + 'Z') + (new Date().getTimezoneOffset() *60000 *2) ;
+								this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') + (new Date().getTimezoneOffset() *60000 *2) ;
 			}
 
 			var has = false;
@@ -328,42 +328,39 @@
 			this.screen();
 		},
 		previous : function() {
-			var self = TC;
 			self.scene_index = self.scene_index < 0 ? self.parameters.scenes.length : --self.scene_index;
 			self.play();
 		},
 		next : function() {
-			var self = TC;
 			self.scene_index = self.scene_index > self.parameters.scenes.length ? 0 : ++self.scene_index;
 			self.play();
 		},
 		keyboard : function(event) {
 			switch ( event.keyCode ) {
 				case 37 :
-					TC.previous();
+					self.previous();
 					break;
 				case 39 :
-					TC.next();
+					self.next();
 					break;
 			}
+		},
+		go : function() {
+			var data = document.querySelector('script[type="text/json"]');
+			if (data !== null) {
+				self.parameters = JSON.parse(data.innerHTML);
+				self.default = self.mergeArrays( self.defaults , self.parameters );
+			}
+			self.build();
+			self.play();
+			self.pixels_check();
+			document.addEventListener('keydown',self.keyboard);
+			document.getElementById('overscan-left').addEventListener('click',self.previous);
+			document.getElementById('overscan-right').addEventListener('click',self.next);
+			window.addEventListener('resize',self.pixels_check)
 		}
 	}
 
-	function go() {
-		var data = document.querySelector('script[type="text/json"]');
-		if (data !== null) {
-			TC.parameters = JSON.parse(data.innerHTML);
-			TC.default = TC.mergeArrays( TC.defaults , TC.parameters );
-		}
-		TC.build();
-		TC.play();
-		TC.pixels_check();
-		document.addEventListener('keydown',TC.keyboard);
-		document.getElementById('overscan-left').addEventListener('click',TC.previous);
-		document.getElementById('overscan-right').addEventListener('click',TC.next);
-		window.addEventListener('resize',TC.pixels_check)
-	}
-
-	window.addEventListener('DOMContentLoaded',go);
+	window.addEventListener('DOMContentLoaded',self.go);
 
 })();
