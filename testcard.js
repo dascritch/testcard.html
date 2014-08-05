@@ -111,6 +111,9 @@
 			return svg;
 		},
 		build_sharpness : function() {
+			function classname(cl) {
+				return cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+			}
 			var elb = document.querySelector('#sharpness svg');
 			var elh = document.querySelector('#sharpnessh svg');
 			var elv = document.querySelector('#sharpnessv svg');
@@ -123,7 +126,7 @@
 				};
 			while (x<280) {
 				pars.x = x;
-				pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+				pars['class'] = classname(cl);
 				this.appendSvg(elh,'rect',pars);
 				this.appendSvg(elb,'rect',pars);
 				cl++;
@@ -136,7 +139,7 @@
 				pars.x = x * this.chart_squsize;
 				while (y< (this.chart_squsize *2)) {
 					pars.y = y;
-					pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+					pars['class'] = classname(cl);
 					this.appendSvg(elv,'rect',pars);
 					if (y <= this.chart_squsize) {
 						pars.y = y + this.chart_squsize;
@@ -296,16 +299,23 @@
 			this.scene = this.mergeArrays( this.default, this.parameters.scenes[this.scene_index]);
 			this.screen();
 		},
-		keyboard : function(event) {
+		previous : function() {
 			var self = TC;
+			self.scene_index = self.scene_index < 0 ? self.parameters.scenes.length : --self.scene_index;
+			self.play();
+		},
+		next : function() {
+			var self = TC;
+			self.scene_index = self.scene_index > self.parameters.scenes.length ? 0 : ++self.scene_index;
+			self.play();
+		},
+		keyboard : function(event) {
 			switch ( event.keyCode ) {
 				case 37 :
-					self.scene_index = self.scene_index < 0 ? self.parameters.scenes.length : --self.scene_index;
-					self.play();
+					TC.previous();
 					break;
 				case 39 :
-					self.scene_index = self.scene_index > self.parameters.scenes.length ? 0 : ++self.scene_index;
-					self.play();
+					TC.next();
 					break;
 			}
 		}
@@ -321,6 +331,8 @@
 		TC.play();
 		TC.pixels_check();
 		document.addEventListener('keydown',TC.keyboard);
+		document.getElementById('overscan-left').addEventListener('click',TC.previous);
+		document.getElementById('overscan-right').addEventListener('click',TC.next);
 		window.addEventListener('resize',TC.pixels_check)
 	}
 
