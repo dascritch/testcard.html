@@ -52,7 +52,7 @@ Those values are purely global and cannot be changed per scene
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
 |`labels` |List of tags for each chart                        |British english|
-|`stylesheet`|URL of a special crafted style, better use including the original one|'./testcad.css'|
+|`stylesheet`|URL of a special crafted style, better use including the original one|'./testcard.css'|
 |`colours`|list of RGB-hex values for squares in colour chart. 7 cells up then 7 cells down.||
 |`contrasts`|list of RGB-hex values for squares in contrast chart. As the previous one||
 
