@@ -35,6 +35,7 @@
 		scene_index			: 0,
 		timer_interrupts	: false,
 		countdown			: false,
+		timezoneoffset		: 0,
 		chart_squsize 		: 40,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
@@ -55,8 +56,8 @@
 			return num<10 ? ('0' + num) : num;
 		},
 		time_refresh : function() {
-			var d = new Date();
 			var ms = Date.now();
+			var unix = Math.floor(ms / 1000 );
 
 			if (TC.countdown !== false ) {
 				ms = Math.abs(TC.countdown - ms);
@@ -64,9 +65,9 @@
 
 			var out;
 			var cs = Math.floor((ms % 1000) / 10 );
-			var s = Math.floor(ms / 1000 ) %60;
-			var m = Math.floor(ms / 60000 ) %60;
-			var h = Math.floor( (ms / 3600000  )- d.getTimezoneOffset() / 60) %24 ;
+			var s = unix %60;
+			var m = Math.floor(unix / 60 ) %60;
+			var h = Math.floor( (unix / 3600  )- TC.timezoneoffset) %24 ;
 			switch( TC.scene.time) {
 				case 'hh:mm:ss' :
 					out = TC.twodigits(h) +':' + TC.twodigits(m) + ':' + TC.twodigits(s);
@@ -83,7 +84,7 @@
 					break;
 				case 'unix' :
 				default:
-					out = Math.floor(ms / 1000);
+					out = unix;
 			}
 			document.getElementById('timer').textContent = out;
 		},
@@ -222,6 +223,9 @@
 				);
 			}
 
+
+			var d = new Date();
+			this.timezoneoffset = d.getTimezoneOffset() / 60;
 		},
 		screen : function() {
 			// setting background
@@ -248,26 +252,45 @@
 			}
 
 			var has = false;
+			this.main.innerHTML = '';
 			for (var t in this.available_scenes) {
 				var mode = this.available_scenes[t];
 				if ((!has) && (this.scene[mode] !== undefined)) {
 					switch (mode) {
 						case 'img' :
-							this.main.innerHTML = '<img src="'+this.scene.img+'" alt="" class="fullCroped" />';
+							this.append(this.main,'img',{
+								src			: this.scene.img,
+								'class'		: 'fullCroped',
+							});
 							break;
 						case 'video' :
-							this.main.innerHTML = '<video src="'+this.scene.video+'" autoplay class="fullAdapt"></video>';
+							this.append(this.main,'video',{
+								src			: this.scene.video,
+								autoplay	: true,
+								'class'		: 'fullAdapt',
+							});
 							break;
 						case 'youtube' :
-							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0" frameborder="0" allowfullscreen></iframe>';
+							this.append(this.main,'iframe',{
+								width		: '100%',
+								height		: '100%',
+								src			: 'http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0',
+								frameborder	: 0
+							});
 							break;
 						case 'vimeo' :
-							this.main.innerHTML = '<iframe width="100%" height="100%" src="http://player.vimeo.com/video/'+this.scene.vimeo+'" frameborder="0" allowfullscreen></iframe>';
+							this.append(this.main,'iframe',{
+								width		: '100%',
+								height		: '100%',
+								src			: 'http://player.vimeo.com/video/'+this.scene.vimeo,
+								frameborder	: 0
+							});
 							break;
 						case 'capture' :
-							this.main.innerHTML = '<video id="playback" class="fullAdapt"></video>';
-							var video = document.getElementById('playback');
-
+							var video = this.append(this.main,'video',{
+								id			: 'playback',
+								'class'		: 'fullAdapt',
+							});
 							navigator.getMedia = ( navigator.getUserMedia ||
 													navigator.webkitGetUserMedia ||
 													navigator.mozGetUserMedia ||

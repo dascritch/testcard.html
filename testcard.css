@@ -104,7 +104,7 @@ rect {
 }
 
 #timer {
-	font-family: Ubuntu, monospaced;
+	font-family: Incosolata, Consolas, Ubuntu, monospaced;
 	font-size  : 48px;
 	fill       : #00ff00;
 	text-anchor: middle;
