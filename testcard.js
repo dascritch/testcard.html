@@ -37,6 +37,7 @@
 		countdown			: false,
 		timezoneoffset		: 0,
 		chart_squsize 		: 40,
+		scene_element		: null,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -229,8 +230,13 @@
 		},
 		screen : function() {
 			// setting background
+			if ( (this.scene_element !== null) && (typeof this.scene_element.remove === 'function') ) {
+				this.scene_element.remove()
+			}
+			// this one for MSIE
+			this.main.innerHTML = '';
+
 			this.main.style.backgroundColor = this.scene.back;
-			this.main.innerHTML='';
 
 			for (var chart_name in this.default.labels) {
 				var chart = document.getElementById(chart_name);
@@ -252,26 +258,25 @@
 			}
 
 			var has = false;
-			this.main.innerHTML = '';
 			for (var t in this.available_scenes) {
 				var mode = this.available_scenes[t];
 				if ((!has) && (this.scene[mode] !== undefined)) {
 					switch (mode) {
 						case 'img' :
-							this.append(this.main,'img',{
+							this.scene_element = this.append(this.main,'img',{
 								src			: this.scene.img,
 								'class'		: 'fullCroped',
 							});
 							break;
 						case 'video' :
-							this.append(this.main,'video',{
+							this.scene_element = this.append(this.main,'video',{
 								src			: this.scene.video,
 								autoplay	: true,
 								'class'		: 'fullAdapt',
 							});
 							break;
 						case 'youtube' :
-							this.append(this.main,'iframe',{
+							this.scene_element = this.append(this.main,'iframe',{
 								width		: '100%',
 								height		: '100%',
 								src			: 'http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0',
@@ -279,7 +284,7 @@
 							});
 							break;
 						case 'vimeo' :
-							this.append(this.main,'iframe',{
+							this.scene_element = this.append(this.main,'iframe',{
 								width		: '100%',
 								height		: '100%',
 								src			: 'http://player.vimeo.com/video/'+this.scene.vimeo,
@@ -287,7 +292,7 @@
 							});
 							break;
 						case 'capture' :
-							var video = this.append(this.main,'video',{
+							this.scene_element = this.append(this.main,'video',{
 								id			: 'playback',
 								'class'		: 'fullAdapt',
 							});
@@ -302,11 +307,11 @@
 									audio: false
 								},function(stream) {
 									if (navigator.mozGetUserMedia) {
-										video.mozSrcObject = stream;
+										this.scene_element.mozSrcObject = stream;
 									} else {
 										var vendorURL = window.URL || window.webkitURL;
-										video.src = vendorURL.createObjectURL(stream);
-										video.play();
+										this.scene_element.src = vendorURL.createObjectURL(stream);
+										this.scene_element.play();
 									}
 								},
 								function(err) {
