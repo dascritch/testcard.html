@@ -57,6 +57,12 @@
 		twodigits : function(num) {
 			return num<10 ? ('0' + num) : num;
 		},
+		colons : function(nums) {
+			var out = '';
+			for (var i in nums)
+				out += (out === '' ? '' : ':') + this.twodigits(nums[i]);
+			return out;
+		},
 		time_refresh : function() {
 			var ms = Date.now();
 			var unix = Math.floor(ms / 1000 );
@@ -72,13 +78,13 @@
 			var h = Math.floor( (unix / 3600  )- self.timezoneoffset) %24 ;
 			switch( self.scene.time) {
 				case 'hh:mm:ss' :
-					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s);
+					out = self.colons([h,m,s]);
 					break;
 				case 'hh:mm:ss:cc' :
-					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s) + ':' + self.twodigits(cs);
+					out = self.colons([h,m,s,cs]);
 					break;
 				case 'hh:mm:ss:ff' :
-					out = self.twodigits(h) +':' + self.twodigits(m) + ':' + self.twodigits(s) + ':' + self.twodigits(Math.round(cs/4));
+					out = self.colons([h,m,s,Math.round(cs/4)]);
 					break;
 				case 'hexnolife' :
 					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
