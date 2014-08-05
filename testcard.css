@@ -27,7 +27,7 @@
 	src: local('Titillium WebBold Italic'), local('TitilliumWeb-BoldItalic'), url(dascritch-theme/TitilliumWeb-BoldItalic.ttf) format('ttf');
 }
 
-html, * {
+html, body, main, section, aside, p , span , var , svg, img {
 	font-family: 'Titillium Web', sans-serif ;
 	padding : 0;
 	margin : 0;
