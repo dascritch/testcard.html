@@ -59,8 +59,9 @@
 		},
 		colons : function(nums) {
 			var out = '';
-			for (var i in nums)
+			for (var i in nums) {
 				out += (out === '' ? '' : ':') + this.twodigits(nums[i]);
+			}
 			return out;
 		},
 		time_refresh : function() {
@@ -74,8 +75,8 @@
 			var out;
 			var cs = Math.floor((ms % 1000) / 10 );
 			var s = unix %60;
-			var m = Math.floor(unix / 60 ) %60;
-			var h = Math.floor( (unix / 3600  )- self.timezoneoffset) %24 ;
+			var m = Math.floor( unix/60 ) %60;
+			var h = Math.floor( (unix/3600) - self.timezoneoffset ) %24 ;
 			switch( self.scene.time) {
 				case 'hh:mm:ss' :
 					out = self.colons([h,m,s]);
@@ -88,7 +89,9 @@
 					break;
 				case 'hexnolife' :
 					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
-					if (out.length < 6 ) out = '000000'.substr(out.length) + out;
+					if (out.length < 6) {
+						out = '000000'.substr(out.length) + out;
+					}
 					break;
 				case 'unix' :
 				default:
@@ -96,39 +99,38 @@
 			}
 			document.getElementById('timer').textContent = out;
 		},
-		append : function (el,nom,attributs,inner) {
-			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
-			var created = document.createElement(nom);
+		appendAttr : function(element,attributs) {
 			for (var cle in attributs) {
 				var valeur = attributs[cle];
-				created.setAttribute(cle,valeur);
+				element.setAttribute(cle,valeur);
 			}
+		},
+		appendSvg : function (el,nom,attributs) {
+			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
+			var svg = document.createElementNS('http://www.w3.org/2000/svg',nom);
+			this.appendAttr(svg,attributs);
+			el.appendChild(svg);
+			return svg;
+		},
+		append : function (el,nom,attributs,inner) {
+			var created = document.createElement(nom);
+			this.appendAttr(created,attributs);
 			el.appendChild(created);
 			if (inner !== undefined) {
 				created.innerHTML = inner;
 			}
 			return created;
 		},
-		appendSvg : function (el,nom,attributs) {
-			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
-			var svg = document.createElementNS("http://www.w3.org/2000/svg",nom);
-			for (var cle in attributs) {
-				var valeur = attributs[cle];
-				svg.setAttribute(cle,valeur);
-			}
-			el.appendChild(svg);
-			return svg;
-		},
 		build_sharpness : function() {
 			function classname(cl) {
-				return cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
+				return cl % 2 === 0 ? 'test_sharpnessO' : 'test_sharpnessI';
 			}
 			var x = 0;
 			var cl = 0;
 			var pars = {
-					'y'			: 0,
-					'width'		: this.chart_squsize *7,
-					'height'	: this.chart_squsize *2
+					y		: 0,
+					width	: this.chart_squsize *7,
+					height	: this.chart_squsize *2
 				};
 			while (x<280) {
 				pars.x = x;
@@ -136,7 +138,7 @@
 				this.appendSvg(this.chart_svg.sharpnessh,'rect',pars);
 				this.appendSvg(this.chart_svg.sharpness,'rect',pars);
 				cl++;
-				x += Math.floor(x / this.chart_squsize) +1;
+				x += Math.floor( x / this.chart_squsize ) +1;
 			}
 			var y;
 			for (x=0 ; x<=6 ; x++) {
@@ -164,31 +166,31 @@
 					y		: this.chart_squsize * Math.floor(c/7),
 					width	: this.chart_squsize * 7,
 					height	: this.chart_squsize * 2,
-					fill	:'#'+range[c]
+					fill	:'#' + range[c]
 				});
 			}
 		},
 		build_colours : function() {
-				this.build_squares('colour',this.defaults.colours);
-				this.build_squares('contrast',this.defaults.contrasts);
-				var magic_circles = { '0':6, '6':0, '7':13, '13':7};
-				for (var i in magic_circles) {
-					var c = magic_circles[i];
-					this.appendSvg(this.chart_svg.contrast,'circle', {
-						cx		: this.chart_squsize * ( (c%7) + 0.5),
-						cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
-						r		: this.chart_squsize / 4,
-						fill	:'#'+this.defaults.contrasts[i]
-					});
-				}
+			this.build_squares('colour',this.defaults.colours);
+			this.build_squares('contrast',this.defaults.contrasts);
+			var magic_circles = { '0' : 6, '6' : 0, '7' : 13, '13' : 7 };
+			for (var i in magic_circles) {
+				var c = magic_circles[i];
+				this.appendSvg(this.chart_svg.contrast,'circle', {
+					cx		: this.chart_squsize * ( (c%7) + 0.5),
+					cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
+					r		: this.chart_squsize / 4,
+					fill	:'#'+this.defaults.contrasts[i]
+				});
+			}
 		},
 		build_timer : function() {
 			var chartzone = this.chart_svg.time;
 			this.appendSvg(chartzone,'text', {
-						x	: this.chart_squsize * 3.5,
-						y	: this.chart_squsize * 1.3, // yep, it's piggy-pinched
-						id	: 'timer'
-					});
+					x	: this.chart_squsize * 3.5,
+					y	: this.chart_squsize * 1.3, // yep, it's piggy-pinched
+					id	: 'timer'
+				});
 		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
@@ -230,9 +232,7 @@
 				this.appendSvg( canv, 'polygon',{ points : asides[edge] } );
 			}
 
-
-			var d = new Date();
-			this.timezoneoffset = d.getTimezoneOffset() / 60;
+			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
 		},
 		screen : function() {
 			// setting background
@@ -260,7 +260,8 @@
 
 			this.countdown = false;
 			if (this.scene.countdownfor !== undefined) {
-								this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') + (new Date().getTimezoneOffset() *60000 *2) ;
+				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') 
+								+ (new Date().getTimezoneOffset() *60000 *2) ;
 			}
 
 			var has = false;
@@ -360,10 +361,11 @@
 			self.build();
 			self.play();
 			self.pixels_check();
+			window.addEventListener('resize',self.pixels_check)
+
 			document.addEventListener('keydown',self.keyboard);
 			document.getElementById('overscan-left').addEventListener('click',self.previous);
 			document.getElementById('overscan-right').addEventListener('click',self.next);
-			window.addEventListener('resize',self.pixels_check)
 		}
 	}
 

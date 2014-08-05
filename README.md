@@ -5,7 +5,7 @@ Static HTML5 page. Helping to calibrate projection before a talk.
 
 Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
-Inspired by an original design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
+Orignially inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
 Version 0.3pre
 
@@ -15,20 +15,6 @@ WARNING
 -------
 Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters !
 This code is only for testing video-projections before talks, and also unveils some rendering bugs on browsers
-
-Known bugs
-----------
-* The « dppx » value on Safari desktop is not accurate when zooming
-* Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
-* countdown not ready yet
-* capture mode (webcam) not ready yet
-
-TODO
-----
-* slide script generator
-* audio sync addon
-* audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
-* dynamic slide source (option `capture` sadly not working)
 
 Parameters
 ----------
@@ -56,12 +42,27 @@ Those values are purely global and cannot be changed per scene
 |`colours`|list of RGB-hex values for squares in colour chart. 7 cells up then 7 cells down.||
 |`contrasts`|list of RGB-hex values for squares in contrast chart. As the previous one||
 
+Known bugs
+----------
+* The « dppx » value on Safari desktop is not accurate when zooming
+* Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
+* countdown not ready yet
+* capture mode (webcam) not ready yet
+
+TODO
+----
+* slide script generator
+* audio sync addon
+* audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
+* dynamic slide source (option `capture` sadly not working).
+ * audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
+
 Licence
 -------
 
 Code by [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
-Design derivated from Ryan Gilmore, rights to be cleared
+Design derivated from [Ryan Gilmore](http://www.urbanspaceman.net/), rights to be cleared
 
 Versions
 --------
