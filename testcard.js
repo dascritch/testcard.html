@@ -183,6 +183,7 @@
 					});
 		},
 		build : function() {
+			//this.append(document.body,'meta', { charset : "utf-8" });
 			this.append(document.body,'link', { rel : "stylesheet" ,  href : this.default.stylesheet });
 
 			this.main = this.append(document.body,'main');
@@ -310,12 +311,12 @@
 		}
 	}
 
-	var data = document.querySelector('script[type="text/json"]');
-	if (data !== null) {
-		TC.parameters = JSON.parse(data.innerHTML);
-		TC.default = TC.mergeArrays( TC.defaults , TC.parameters );
-	}
 	function go() {
+		var data = document.querySelector('script[type="text/json"]');
+		if (data !== null) {
+			TC.parameters = JSON.parse(data.innerHTML);
+			TC.default = TC.mergeArrays( TC.defaults , TC.parameters );
+		}
 		TC.build();
 		TC.play();
 		TC.pixels_check();
@@ -324,6 +325,5 @@
 	}
 
 	window.addEventListener('DOMContentLoaded',go);
-
 
 })();
