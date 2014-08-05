@@ -85,6 +85,7 @@ section {
 
 #charts p {
 	display : inline-block;
+	margin : 0 0.5em;
 }
 #charts svg {
 	display : block;
@@ -100,6 +101,14 @@ rect {
 }
 .test_sharpnessI {
 	fill : #9f9f9f;
+}
+
+#timer {
+	font-family: Ubuntu, monospaced;
+	font-size  : 48px;
+	fill       : #00ff00;
+	text-anchor: middle;
+	vertical-align: middle;
 }
 
 aside div {

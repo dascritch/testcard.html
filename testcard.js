@@ -10,22 +10,38 @@
 		defaults : {
 			back		: '#777777',
 			charts		: ['contrast', 'sharpness', 'colour'],
-			time		: "hh:mm:ss"
+			time		: "hh:mm:ss",
+			// here is how to change chart names. NOTE this is only for default, never for scenes
+			labels				: {
+				'contrast'		: 'Contrast',
+				'sharpness'		: 'Sharpness',
+				'sharpnessh'	: 'Sharpness',
+				'sharpnessv'	: 'Sharpness',
+				'colour'		: 'Colour',
+				'time'			: ' ',
+			},
+			stylesheet	: "testcard.css",
+			// yep, you can even change chart ranges. NOTE this is only for default, never for scenes
+			colours		: [	'0000c0', 'c00000', 'c000c0', '00c000', '00c0c0', 'c0c000', 'c0c0c0' ,
+							'000000', '2b2b2b', '555555', '808080', 'aaaaaa', 'd4d4d4', 'ffffff' ],
+			contrasts	: [	'252525', '202020', '1a1a1a', '131313', '0d0d0d', '060606', '000000' ,
+							'ffffff', 'f9f9f9', 'f2f2f2', 'ececec', 'e6e6e6', 'dfdfdf', 'd9d9d9' ],
+
 		},
-		available_charts : ['contrast', 'sharpness', 'sharpnessh', 'sharpnessv', 'colour', 'time'],
-		available_scenes : ['img','video','youtube','vimeo','capture'],
-		parameters : {},
-		scene : {},
-		main : document.querySelector('main'),
-		scene_index : 0,
-		timer_interrupts : false,
-		countdown : false,
+		available_scenes	: ['img','video','youtube','vimeo','capture'],
+		parameters			: {},
+		scene				: {},
+		main				: null,
+		scene_index			: 0,
+		timer_interrupts	: false,
+		countdown			: false,
+		chart_squsize 		: 40,
 		mergeArrays : function (obj1,obj2) {
-			var out = {};
-			for(var i in obj1) {
+			var i, out = {};
+			for(i in obj1) {
 				out[i] = obj1[i];
 			}
-			for(var i in obj2) {
+			for(i in obj2) {
 				out[i] = obj2[i];
 			}
 			return out;
@@ -71,6 +87,19 @@
 			}
 			document.getElementById('timer').textContent = out;
 		},
+		append : function (el,nom,attributs,inner) {
+			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
+			var created = document.createElement(nom);
+			for (var cle in attributs) {
+				var valeur = attributs[cle];
+				created.setAttribute(cle,valeur);
+			}
+			el.appendChild(created);
+			if (inner !== undefined) {
+				created.innerHTML = inner;
+			}
+			return created;
+		},
 		appendSvg : function (el,nom,attributs) {
 			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",nom);
@@ -89,8 +118,8 @@
 			var cl = 0;
 			var pars = {
 					'y'			: 0,
-					'width'		: 280,
-					'height'	: 80
+					'width'		: this.chart_squsize *7,
+					'height'	: this.chart_squsize *2
 				};
 			while (x<280) {
 				pars.x = x;
@@ -98,19 +127,19 @@
 				this.appendSvg(elh,'rect',pars);
 				this.appendSvg(elb,'rect',pars);
 				cl++;
-				x += Math.floor(x / 40) +1;
+				x += Math.floor(x / this.chart_squsize) +1;
 			}
 			var y;
 			for (x=0 ; x<=6 ; x++) {
 				y = 0;
 				cl = 0;
-				pars.x = x * 40;
-				while (y<80) {
+				pars.x = x * this.chart_squsize;
+				while (y< (this.chart_squsize *2)) {
 					pars.y = y;
 					pars['class'] = cl % 2 === 0 ? "test_sharpnessO" : "test_sharpnessI";
 					this.appendSvg(elv,'rect',pars);
-					if (y <= 40) {
-						pars.y = y + 40;
+					if (y <= this.chart_squsize) {
+						pars.y = y + this.chart_squsize;
 						this.appendSvg(elb,'rect',pars);
 					}
 					y += x+1;
@@ -118,16 +147,84 @@
 				}
 			}
 		},
+		build_squares : function(chartname,range) {
+			var chartzone = document.querySelector('#'+chartname+' svg');
+			for (var c in range) {
+				this.appendSvg(chartzone,'rect', {
+					x		: 0 + this.chart_squsize * (c%7),
+					y		: this.chart_squsize * Math.floor(c/7),
+					width	: this.chart_squsize * 7,
+					height	: this.chart_squsize * 2,
+					fill	:'#'+range[c]
+				});
+			}
+		},
+		build_colours : function() {
+				this.build_squares('colour',this.defaults.colours);
+				this.build_squares('contrast',this.defaults.contrasts);
+				var chart_contrast = document.querySelector('#contrast svg');
+				var magic_circles = { '0':6, '6':0, '7':13, '13':7};
+				for (var i in magic_circles) {
+					var c = magic_circles[i];
+					this.appendSvg(chart_contrast,'circle', {
+						cx		: this.chart_squsize * ( (c%7) + 0.5),
+						cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
+						r		: this.chart_squsize / 4,
+						fill	:'#'+this.defaults.contrasts[i]
+					});
+				}
+		},
+		build_timer : function() {
+			var chartzone = document.querySelector('#time svg');
+			this.appendSvg(chartzone,'text', {
+						x	: this.chart_squsize * 3.5,
+						y	: this.chart_squsize * 1.3, // yep, it's piggy-pinched
+						id	: 'timer'
+					});
+		},
 		build : function() {
+			this.append(document.body,'link', { rel : "stylesheet" ,  href : this.default.stylesheet });
+
+			this.main = this.append(document.body,'main');
+			this.append(document.body,'section',{id:'rez'});
+			this.append(document.getElementById('rez'),'p',{},'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
+
+			var chartzone = this.append(document.body,'section',{ id:'charts' });
+			var p;
+			for (var c in this.default.labels) {
+				p = this.append(chartzone,'p',{ id:c });
+				this.append(p,'span',{},this.default.labels[c]);
+				this.appendSvg(p,'svg',{ width:280, height:80 });
+			}
 			this.build_sharpness();
+			this.build_colours();
+			this.build_timer();
+
+			var aside = this.append(document.body,'aside');
+			var asides = {
+				"overscan-top"		: "20,0 0,40 40,40",
+				"overscan-left"		: "0,20 40,0 40,40",
+				"overscan-right"	: "40,20 0,0 0,40",
+				"overscan-bottom"	: "20,40 0,0 40,0",
+			};
+			for (var edge in asides) {
+				var canv = this.appendSvg(
+						this.append(aside,'div',{id:edge}),
+						'svg');
+				//canv.viewBox = "0,0 40,40";
+				this.appendSvg(
+					canv,
+					'polygon',{points:asides[edge]}
+				);
+			}
+
 		},
 		screen : function() {
 			// setting background
 			this.main.style.backgroundColor = this.scene.back;
 			this.main.innerHTML='';
 
-			for (var i in this.available_charts) {
-				var chart_name = this.available_charts[i];
+			for (var chart_name in this.default.labels) {
 				var chart = document.getElementById(chart_name);
 				chart.style.display = (this.scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
 			}
@@ -195,9 +292,7 @@
 			}
 		},
 		play : function() {
-			this.scene = this.mergeArrays( this.defaults ,
-							this.mergeArrays( this.parameters.default ,
-								this.parameters.scenes[this.scene_index]) );
+			this.scene = this.mergeArrays( this.default, this.parameters.scenes[this.scene_index]);
 			this.screen();
 		},
 		keyboard : function(event) {
@@ -218,13 +313,17 @@
 	var data = document.querySelector('script[type="text/json"]');
 	if (data !== null) {
 		TC.parameters = JSON.parse(data.innerHTML);
+		TC.default = TC.mergeArrays( TC.defaults , TC.parameters );
+	}
+	function go() {
+		TC.build();
+		TC.play();
+		TC.pixels_check();
+		document.addEventListener('keydown',TC.keyboard);
+		window.addEventListener('resize',TC.pixels_check)
 	}
 
-	TC.build();
-	TC.play();
-	TC.pixels_check();
+	window.addEventListener('DOMContentLoaded',go);
 
-	document.addEventListener('keydown',TC.keyboard);
-	window.addEventListener('resize',TC.pixels_check)
 
 })();

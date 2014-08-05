@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="en">
-<head>
 	<meta charset="utf-8">
 	<title>testcard.html</title>
 	<meta name="description" content="testcard.html inspired from http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/" />
 	<meta name="author" content="Xavier “dascritch” Mouton-Dubosc" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<link rel="stylesheet" href="testcard.css" />
 	<script type="text/json">
 	{
 		"default" : {
@@ -50,128 +48,5 @@
 		]
 	}
 	</script>
-</head>
-
-<body>
-
-	<main>
-	</main>
-
-	<section id="rez">
-		<p>
-			display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var>
-			—
-			<var id="pixels_ratio">1</var> dppx
-		</p>
-	</section>
-
-	<section id="charts">
-		<p id="contrast">
-			<span>Contrast</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<rect x="0" y="0" width="280" height="80" fill="#252525" />
-				<rect x="40" y="0" width="240" height="80" fill="#202020" />
-				<rect x="80" y="0" width="200" height="80" fill="#1a1a1a" />
-				<rect x="120" y="0" width="160" height="80" fill="#131313" />
-				<rect x="160" y="0" width="120" height="80" fill="#0d0d0d" />
-				<rect x="200" y="0" width="80" height="80" fill="#060606" />
-				<rect x="240" y="0" width="40" height="80" fill="#000000" />
-				<circle cx="20" cy="20" r="10" fill="#000000" />
-				<circle cx="260" cy="20" r="10" fill="#252525" />
-
-				<rect x="0" y="40" width="280" height="40" fill="#ffffff" />
-				<rect x="40" y="40" width="240" height="40" fill="#f9f9f9" />
-				<rect x="80" y="40" width="200" height="40" fill="#f2f2f2" />
-				<rect x="120" y="40" width="160" height="40" fill="#ececec" />
-				<rect x="160" y="40" width="120" height="40" fill="#e6e6e6" />
-				<rect x="200" y="40" width="80" height="40" fill="#dfdfdf" />
-				<rect x="240" y="40" width="40" height="40" fill="#d9d9d9" />
-				<circle cx="20" cy="60" r="10" fill="#d9d9d9" />
-				<circle cx="260" cy="60" r="10" fill="#ffffff" />
-			</svg>
-		</p>
-
-		<p id="sharpness">
-			<span>Sharpness</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			</svg>
-		</p>
-
-		<p id="sharpnessh">
-			<span>Sharpness</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			</svg>
-		</p>
-
-		<p id="sharpnessv">
-			<span>Sharpness</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-			</svg>
-		</p>
-
-		<p id="colour">
-			<span>Colour</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<rect x="0" y="0" width="280" height="80" fill="#0000c0" />
-				<rect x="40" y="0" width="240" height="80" fill="#c00000" />
-				<rect x="80" y="0" width="200" height="80" fill="#c000c0" />
-				<rect x="120" y="0" width="160" height="80" fill="#00c000" />
-				<rect x="160" y="0" width="120" height="80" fill="#00c0c0" />
-				<rect x="200" y="0" width="80" height="80" fill="#c0c000" />
-				<rect x="240" y="0" width="40" height="80" fill="#c0c0c0" />
-
-				<rect x="0" y="40" width="280" height="40" fill="#000000" />
-				<rect x="40" y="40" width="240" height="40" fill="#2b2b2b" />
-				<rect x="80" y="40" width="200" height="40" fill="#555555" />
-				<rect x="120" y="40" width="160" height="40" fill="#808080" />
-				<rect x="160" y="40" width="120" height="40" fill="#aaaaaa" />
-				<rect x="200" y="40" width="80" height="40" fill="#d4d4d4" />
-				<rect x="240" y="40" width="40" height="40" fill="#ffffff" />
-			</svg>
-		</p>
-
-		<p id="time">
-			<span>&nbsp;</span>
-			<svg width="280" height="80" xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<rect x="0" y="0" width="280" height="80" fill="#000000" />
-				<text id="timer" x="140" y="50"
-			        style="font-family: Ubuntu, monospaced;
-			               font-size  : 48px;
-			               fill       : #00ff00;
-			               text-anchor: middle;
-			               vertical-align: middle;">
-			    	00:00:00:00
-			  </text>
-			</svg>
-		</p>
-
-	</section>
-
-	<aside>
-		<div id="overscan-top">
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<polygon points="20,0 00,40 40,40" />
-			</svg>
-		</div>
-		<div id="overscan-left">
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<polygon points="0,20 40,0 40,40" />
-			</svg>
-		</div>
-		<div id="overscan-right">
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<polygon points="40,20 0,0 0,40" />
-			</svg>
-		</div>
-		<div id="overscan-bottom">
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-				<polygon points="20,40 0,0 40,0" />
-			</svg>
-		</div>
-	</aside>
-
-
-<script src="testcard.js"></script>
-
-</body>
+	<script src="testcard.js"></script>
 </html>

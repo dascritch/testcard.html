@@ -12,7 +12,7 @@ Version 0.3pre
 WARNING
 -------
 Browsers are not acurate viedo renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others !
-This code is only for testing projections, and also unveil some rendering bugs on browsers
+This code is only for testing video-projections before talks, and also unveils some rendering bugs on browsers
 
 Known bugs
 ----------
