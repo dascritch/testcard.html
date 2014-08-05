@@ -9,6 +9,8 @@ Inspired by an original design by [Ryan Gilmore](http://www.urbanspaceman.net/ur
 
 Version 0.3pre
 
+[You can touch, you can try](http://dascritch.github.io/testcard.html/)
+
 WARNING
 -------
 Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters !
@@ -42,8 +44,8 @@ Those values are globals or by scene.
 Those values are purely global and cannot be changed per scene
 * `labels` : list of tags for each chart
 * `stylesheet` : URL of a special crafted style, better use by include the original one
-* `colours` : list of rgb-hex values fot colour chart
-* `contrasts` : list of rgb-hex values fot contrast chart
+* `colours` : list of rgb-hex values for squares in colour chart. 7 cells up then 7 cells down.
+* `contrasts` : list of rgb-hex values for squares in contrast chart. As the previous one
 
 Licence
 -------
