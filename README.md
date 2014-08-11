@@ -54,9 +54,9 @@ Those values are global or by scene.
 |`capture`|Mirorring the webcam                               |omitted|
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
-|`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`||
+|`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`|omitted|
 |`sound`  |test sound. should be `{"wave":"sine","freq":1000}`            |omitted|
-|`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{"loop":2000,"length":100}`    ||
+|`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{"loop":2000,"length":100}`    |omitted|
 
 Availables `charts` :
 * `contrast`, `colour`, `red`, `blue`, `green`
