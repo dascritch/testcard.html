@@ -121,12 +121,28 @@ rect {
 
 @keyframes syncer {
 	from {
-		-webkit-transform: translateX(0px);
 		transform: translateX(0px);
 	}
 	to {
-		-webkit-transform: translateX(280px);
 		transform: translateX(280px);
+	}
+}
+
+@-webkit-keyframes syncer {
+	from {
+		-webkit-transform: translateX(0px);
+	}
+	to {
+		-webkit-transform: translateX(280px);
+	}
+}
+
+@-ms-keyframes syncer {
+	from {
+		-ms-transform: translateX(0px);
+	}
+	to {
+		-ms-transform: translateX(280px);
 	}
 }
 
