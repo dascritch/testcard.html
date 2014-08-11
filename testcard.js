@@ -27,7 +27,12 @@
 							'000000', '2b2b2b', '555555', '808080', 'aaaaaa', 'd4d4d4', 'ffffff' ],
 			contrasts	: [	'252525', '202020', '1a1a1a', '131313', '0d0d0d', '060606', '000000' ,
 							'ffffff', 'f9f9f9', 'f2f2f2', 'ececec', 'e6e6e6', 'dfdfdf', 'd9d9d9' ],
-
+			overscans : {
+				'top'		: '20,0 0,40 40,40',
+				'left'		: '0,20 40,0 40,40',
+				'right'	: '40,20 0,0 0,40',
+				'bottom'	: '20,40 0,0 40,0',
+			}
 		},
 		available_scenes	: ['img','video','youtube','vimeo','capture'],
 		parameters			: {},
@@ -72,17 +77,16 @@
 		},
 		time_refresh : function() {
 			var ms = Date.now();
-			var unix = Math.floor(ms / 1000 );
 
 			if (self.countdown !== false ) {
 				ms = Math.abs(self.countdown - ms);
 			}
-
+			var unix = Math.floor(ms / 1000 );
 			var out;
 			var cs = Math.floor((ms % 1000) / 10 );
 			var s = unix %60;
 			var m = Math.floor( unix/60 ) %60;
-			var h = Math.floor( (unix/3600) - self.timezoneoffset ) %24 ;
+			var h = Math.floor( (unix/3600) - ( (self.countdown !== false ) ? 0 : self.timezoneoffset ) ) %24 ;
 			switch( self.scene.time) {
 				case 'hh:mm:ss' :
 					out = self.colons([h,m,s]);
@@ -255,17 +259,11 @@
 			this.build_synctop();
 
 			var aside = this.append(document.body,'aside');
-			var asides = {
-				'overscan-top'		: '20,0 0,40 40,40',
-				'overscan-left'		: '0,20 40,0 40,40',
-				'overscan-right'	: '40,20 0,0 0,40',
-				'overscan-bottom'	: '20,40 0,0 40,0',
-			};
-			for (var edge in asides) {
+			for (var edge in this.default.overscans) {
 				var canv = this.appendSvg(
-						this.append(aside,'div',{ id : edge }),
+						this.append(aside,'div',{ id : 'overscan-'+edge }),
 						'svg');
-				this.appendSvg( canv, 'polygon',{ points : asides[edge] } );
+				this.appendSvg( canv, 'polygon',{ points : this.default.overscans[edge] } );
 			}
 
 			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
@@ -355,8 +353,11 @@
 
 			this.countdown = false;
 			if (this.scene.countdownfor !== undefined) {
-				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') 
-								+ (new Date().getTimezoneOffset() *60000 *2) ;
+				var msperhour = 60 * 60 * 1E3
+				var offset = this.timezoneoffset * msperhour;
+				var msperdays = 24 * msperhour;
+				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') + offset  ;
+				this.countdown += (this.countdown < (Date.parse(new Date()))) ? msperdays : 0 ;
 			}
 
 			this.sound();
@@ -428,19 +429,34 @@
 			}
 		},
 		play : function() {
-			this.scene = this.mergeArrays( this.default, this.parameters.scenes[this.scene_index]);
-			this.screen();
+			self.scene_index = (window.location.hash === '') ? 0 : parseInt(window.location.hash.replace(/[^\d\-]/g,''),10);
+			var target_scene = self.scene_index ;
+			if (isNaN(target_scene)) {
+				target_scene = 0;
+			}
+			var len = self.parameters.scenes.length;
+			target_scene = ( (target_scene + len) % len );
+			if (target_scene !== self.scene_index) {
+				window.location.hash = ( target_scene === 0 ) ? '' : target_scene.toString();
+				return;
+			}
+			self.scene = self.mergeArrays( self.default, self.parameters.scenes[self.scene_index]);
+			self.screen();
 		},
 		previous : function() {
-			self.scene_index = self.scene_index < 0 ? self.parameters.scenes.length : --self.scene_index;
-			self.play();
+			window.location.hash = ( --self.scene_index ).toString();
 		},
 		next : function() {
-			self.scene_index = self.scene_index > self.parameters.scenes.length ? 0 : ++self.scene_index;
-			self.play();
+			window.location.hash = ( ++self.scene_index ).toString();
 		},
 		event_keyboard : function(event) {
 			switch ( event.keyCode ) {
+				case 35 :
+					window.location.hash = (self.parameters.scenes.length -1).toString();
+					break;
+				case 36 :
+					window.location.hash = '';
+					break;
 				case 37 :
 					self.previous();
 					break;
@@ -458,7 +474,8 @@
 			self.build();
 			self.play();
 			self.pixels_check();
-			window.addEventListener('resize',self.pixels_check)
+			window.addEventListener('hashchange',self.play)
+			window.addEventListener('resize',self.pixels_check);
 
 			document.addEventListener('keydown',self.event_keyboard);
 			document.getElementById('overscan-left').addEventListener('click',self.previous);

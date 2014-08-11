@@ -22,40 +22,38 @@ Those values are globals or by scene.
 
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
-|`back`   |Colour of the background in RGB-hex value.         |'777777'|
+|`back`   |Colour of the background in RGB-hex value.         |`"777777"`|
 |`img`    |URL for the background image                       ||
 |`video`  |URL for the video. Autoplayed                      ||
 |`youtube`|ID for a Youtube video                             ||
 |`vimeo`  |ID for a Vimeo video                               ||
 |`capture`|Mirorring the webcam                               ||
-|`charts` |displayed charts. No more than 3 or 4              |['contrast', 'sharpness', 'colour']|
-|`time`   | time format                                       |'hh:mm:ss'|
-|`countdownfor`|TODO time displayed is a countdown for the indicated unix timestamp'contrast', 'sharpness', 'colour'||
-|`sound`  |test sound. should be { "wave":"sine","hz":"1000" }            |''|
-|`synctop`|TODO parameters for the `synctop` chart            ||
+|`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
+|`time`   | time format                                       |`"hh:mm:ss"`|
+|`countdownfor`|time displayed is a countdown for the indicated unix timestamp. Format should be `"hh:mm:ss"`||
+|`sound`  |test sound. should be `{ "wave":"sine","hz":"1000" }`            |''|
+|`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{ "loop":2000,"length":100 }`            ||
 
 Those values are purely global and cannot be changed per scene
 
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
 |`labels` |List of tags for each chart                        |British english|
-|`stylesheet`|URL of a special crafted style, better use including the original one|'./testcard.css'|
+|`stylesheet`|URL of a special crafted style, better use including the original one|`"./testcard.css"`|
 |`colours`|list of RGB-hex values for squares in colour chart. 7 cells up then 7 cells down.||
 |`contrasts`|list of RGB-hex values for squares in contrast chart. As the previous one||
+|`overscans`|list of arrow form descriptions for unsafe overscan edges||
 
 Known bugs
 ----------
 * The « dppx » value on Safari desktop is not accurate when zooming
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
-* countdown not ready yet
-* capture mode (webcam) not ready yet
 
 TODO
 ----
 * slide script generator
-* audio sync addon
 * audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
-* dynamic slide source (option `capture` sadly not working).
+* dynamic slide source (option `capture` aka webcam is not ready yet)
  * audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
 
 Licence
