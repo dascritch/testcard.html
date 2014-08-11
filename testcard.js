@@ -283,7 +283,7 @@
 		top_off : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0;
-				self.syncer_element.style.fill = '#555';
+				self.syncer_element.style.fill = '#333';
 			}
 		},
 		sound : function() {
@@ -304,8 +304,8 @@
 
 				this.oscillator.type = this.scene.sound.wave || 'sine';
 				this.oscillator.frequency.value = this.scene.sound.freq || 1000;
-				this.top_off();
 				this.oscillator.start();
+				this.top_off();
 			}
 
 			if (typeof this.scene.synctop === "object") {
