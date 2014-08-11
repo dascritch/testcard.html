@@ -31,6 +31,7 @@ Those values are globals or by scene.
 |`charts` |displayed charts. No more than 3 or 4              |['contrast', 'sharpness', 'colour']|
 |`time`   | time format                                       |'hh:mm:ss'|
 |`countdownfor`|TODO time displayed is a countdown for the indicated unix timestamp'contrast', 'sharpness', 'colour'||
+|`sound`  |test sound. should be { "wave":"sine","hz":"1000" }            |''|
 |`synctop`|TODO parameters for the `synctop` chart            ||
 
 Those values are purely global and cannot be changed per scene
@@ -48,6 +49,7 @@ Known bugs
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 * countdown not ready yet
 * capture mode (webcam) not ready yet
+* synctop won't work accurately on chromium and old webkits
 
 TODO
 ----

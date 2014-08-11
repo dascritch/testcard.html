@@ -110,6 +110,26 @@ rect {
 	vertical-align: middle;
 }
 
+#syncer {
+	-webkit-animation : syncer 2s infinite;
+	-webkit-animation-fill-mode : fowards;
+	-webkit-animation-timing-function : linear;
+	animation : syncer 2s infinite;
+	animation-fill-mode : fowards;
+	animation-timing-function : linear;
+}
+
+@keyframes syncer {
+	from {
+		-webkit-transform: translateX(0px);
+		transform: translateX(0px);
+	}
+	to {
+		-webkit-transform: translateX(280px);
+		transform: translateX(280px);
+	}
+}
+
 aside div {
 	position : fixed;
 	background : black;
@@ -184,3 +204,4 @@ aside polygon {
 		font-size : 2.5em;
 	}
 }
+

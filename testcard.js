@@ -19,6 +19,7 @@
 				'sharpnessv'	: 'Sharpness',
 				'colour'		: 'Colour',
 				'time'			: ' ',
+				'synctop'		: 'Synchro'
 			},
 			stylesheet	: "testcard.css",
 			// yep, you can even change chart ranges. NOTE this is only for default, never for scenes
@@ -39,6 +40,7 @@
 		chart_squsize 		: 40,
 		scene_element		: null,
 		chart_svg			: {},
+		oscillator			: null,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -192,6 +194,21 @@
 					id	: 'timer'
 				});
 		},
+		build_synctop : function() {
+			var chartzone = this.chart_svg.synctop;
+			this.appendSvg(chartzone,'rect', {
+				x		: 0,
+				y		: this.chart_squsize * 0.9,
+				width	: this.chart_squsize * 7,
+				height	: this.chart_squsize * 0.2,
+				fill	: '#ccc'
+			});
+			var syncer = this.appendSvg(chartzone,'polygon', {
+				points	: '-10,0 10,0 0,38',
+				fill	: '#ddd',
+				id		: 'syncer'
+			});
+		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
 			this.append(document.body,'link',{
@@ -217,6 +234,7 @@
 			this.build_sharpness();
 			this.build_colours();
 			this.build_timer();
+			this.build_synctop();
 
 			var aside = this.append(document.body,'aside');
 			var asides = {
@@ -233,6 +251,28 @@
 			}
 
 			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
+		},
+		sound : function() {
+			// tone
+			if (this.oscillator !== null) {
+				this.oscillator.stop();
+			}
+
+			this.oscillator = null;
+			if ((this.scene.sound !== undefined) && (typeof this.scene.sound === "object")) {
+				var audioCtx = new window.AudioContext();
+
+				// create Oscillator node
+				this.oscillator = audioCtx.createOscillator();
+				var gainNode = audioCtx.createGain();
+				this.oscillator.connect(gainNode);
+				gainNode.connect(audioCtx.destination);
+
+				this.oscillator.type = this.scene.sound.wave || 'sine';
+				this.oscillator.frequency.value = this.scene.sound.freq || 1000;
+				gainNode.gain.value = 0.5;
+				this.oscillator.start();
+			}
 		},
 		screen : function() {
 			// setting background
@@ -263,6 +303,8 @@
 				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') 
 								+ (new Date().getTimezoneOffset() *60000 *2) ;
 			}
+
+			this.sound();
 
 			var has = false;
 			for (var t in this.available_scenes) {

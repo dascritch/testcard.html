@@ -17,7 +17,8 @@
 	},
 	"scenes" : [
 		{
-			"charts" : ["contrast", "sharpnessh"  , "colour"]
+			"charts" : ["contrast", "sharpnessh"  , "colour","synctop"],
+			"synctop" : { "loop" : 2000 , "length" : 100 }
 		},{
 			"charts" : ["colour","time"],
 			"time" : "hh:mm:ss",
@@ -50,7 +51,8 @@
 		},{
 			"img" : "http://38.media.tumblr.com/fa43059b1b5009a52f3e963ff99663b4/tumblr_n83pfhqy0J1r2geqjo1_500.gif",
 			"charts" : ["contrast" , "sharpness" , "synctop"],
-			"synctop" : { "loop" : 2000 , "length" : 100 }
+			"synctop" : { "loop" : 2000 , "length" : 100 },
+			"sound" : {"wave" : "sine" , "freq" : 1000}
 		}
 	]
 }
