@@ -269,18 +269,20 @@
 				return;
 			}
 
-			var out_of_sync = 100;
+			var out_of_sync = 500;
 			window.setTimeout(self.top_on,out_of_sync);
 			window.setTimeout(self.top_off,out_of_sync + self.scene.synctop.length);
 		},
 		top_on : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0.5;
+				document.getElementById('syncer').style.fill = '#ddd';
 			}
 		},
 		top_off : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0;
+				document.getElementById('syncer').style.fill = '#555';
 			}
 		},
 		sound : function() {
@@ -307,7 +309,7 @@
 
 			var bar = document.querySelector('#tonality');
 			if (typeof this.scene.synctop === "object") {
-				bar.setAttribute('x', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
+				bar.setAttribute('x', Math.round(this.chart_squsize*7 * 500 / 2000)+'px' );
 				bar.setAttribute('width', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
 			} else {
 				bar.setAttribute('x', '0px' );
