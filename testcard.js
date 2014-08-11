@@ -18,6 +18,9 @@
 				'sharpnessh'	: 'Sharpness',
 				'sharpnessv'	: 'Sharpness',
 				'colour'		: 'Colour',
+				'green'			: 'Green',
+				'red'			: 'Red',
+				'blue'			: 'Blue',
 				'time'			: ' ',
 				'synctop'		: 'Synchro'
 			},
@@ -27,6 +30,12 @@
 							'000000', '2b2b2b', '555555', '808080', 'aaaaaa', 'd4d4d4', 'ffffff' ],
 			contrasts	: [	'252525', '202020', '1a1a1a', '131313', '0d0d0d', '060606', '000000' ,
 							'ffffff', 'f9f9f9', 'f2f2f2', 'ececec', 'e6e6e6', 'dfdfdf', 'd9d9d9' ],
+			greens	: [	'00ff00', '00d400', '00aa00', '008000', '005500', '002b00', '000000' ,
+							'ffffff', 'd4ffd4', 'aaffaa', '80ff80', '55ff55', '2bff2b', '00ff00' ],
+			reds	: [	'ff0000', 'd40000', 'aa0000', '800000', '550000', '2b0000', '000000' ,
+							'ffffff', 'ffd4d4', 'ffaaaa', 'ff8080', 'ff5555', 'ff2b2b', 'ff0000' ],
+			blues	: [	'0000ff', '0000d4', '0000aa', '000080', '000055', '00002b', '000000' ,
+							'ffffff', 'd4d4ff', 'aaaaff', '8080ff', '5555ff', '2b2bff', '0000ff' ],
 			overscans : {
 				'top'		: '20,0 0,40 40,40',
 				'left'		: '0,20 40,0 40,40',
@@ -181,8 +190,11 @@
 			}
 		},
 		build_colours : function() {
-			this.build_squares('colour',this.defaults.colours);
-			this.build_squares('contrast',this.defaults.contrasts);
+			var charts = ['colour','contrast','green','red','blue'];
+			for(var i in charts) {
+				var seg = charts[i];
+				this.build_squares(seg,this.defaults[seg+'s']);
+			}
 			var magic_circles = { '0' : 6, '6' : 0, '7' : 13, '13' : 7 };
 			for (var i in magic_circles) {
 				var c = magic_circles[i];

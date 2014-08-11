@@ -11,48 +11,58 @@ Version 0.3pre
 
 [You can touch, you can try](http://dascritch.github.io/testcard.html/)
 
-WARNING
--------
-Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters !
-This code is only for testing video-projections before talks, and also unveils some rendering bugs on browsers
+Disclaimer
+----------
+This code is only intented for testing video-projections before talks, and also unveils some rendering bugs on browsers.
+
+Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters ! If you need a real testcard, you should play it via direct output or use a special generator. 
 
 Howto
 -----
 Create a minimalist HTML page.
-```html 
+```html
+<!doctype html>
+<meta charset="utf-8" />
 <script src="testcard.js"></script>
 <script type="text/json">
 {
 	"default" : {
-		( your default parameters)
+		( your global parameters)
 	},
 	"scenes" : [
-	    { ( each scene parameters) }
+	    { ( first scene parameters) },{ ( second scene parameters) },…
 	]
 }
+</script>
 ```
 
-That's the whole you need. 
+That's the whole you need, just beware that the JSON section is strictly valid.
 
-You can have as many html files with its own parameters as you want. Easiest to have a collection of tests.
+You can have as many html files with its own parameters in the same directory as you want. Easiest to have a collection of tests.
 
 Parameters
 ----------
-Those values are globals or by scene.
+Those values are global or by scene.
 
 |Attribute|Value                                              |Default|
 |---------|---------------------------------------------------|-------|
 |`back`   |Colour of the background in RGB-hex value.         |`"777777"`|
-|`img`    |URL for the background image                       ||
-|`video`  |URL for the video. Autoplayed                      ||
-|`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  ||
-|`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       ||
-|`capture`|Mirorring the webcam                               ||
+|`img`    |URL for the background image                       |omitted|
+|`video`  |URL for the video. Autoplayed                      |omitted|
+|`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  |omitted|
+|`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       |omitted|
+|`capture`|Mirorring the webcam                               |omitted|
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
 |`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`||
-|`sound`  |test sound. should be `{"wave":"sine","freq":1000}`            |''|
+|`sound`  |test sound. should be `{"wave":"sine","freq":1000}`            |omitted|
 |`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{"loop":2000,"length":100}`    ||
+
+Availables `charts` :
+* `contrast`, `colour`, `red`, `blue`, `green`
+* `sharpness`, `sharpnessh`, `sharpnessv`
+* `time` : format is dictated by `time` and `countdownfor` parameters
+* `synctop`
 
 Those values are purely global and cannot be changed per scene
 
@@ -71,10 +81,12 @@ Known bugs
 
 TODO
 ----
-* slide script generator
-* audio sync chart sync on https://www.youtube.com/watch?v=kxopViU98Xo
+* YUV and other special colorspaces, with degradees
 * dynamic slide source (option `capture` aka webcam is not ready yet)
- * audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
+* slide script generator
+* audio sync chart synced with a (local) video. by example https://www.youtube.com/watch?v=kxopViU98Xo
+* audio from a stream
+* audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
 
 Licence
 -------
@@ -85,8 +97,14 @@ Design derivated from [Ryan Gilmore](http://www.urbanspaceman.net/), rights to b
 
 Versions
 --------
-* August 2014 : 0.3 , full parametric and layout auto-constructive
-* July 2014 : 0.2 , json parameters embeded in html.
+* August 2014 : 0.3
+  * full parametric 
+  * layout auto-constructive
+  * minimal html 
+  * synctop 
+  * correct countdown
+  * 
+* July 2014 : 0.2 , json parameters embeded in html, video inclusion from URL, youtube, vimeo.
 * June 2014 : 0.1 , first release.
   * static html.
   * Contrast, h-sharpness, colours charts
