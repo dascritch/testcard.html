@@ -42,6 +42,8 @@
 		chart_svg			: {},
 		oscillator			: null,
 		gainNode			: null,
+		syncer_element		: null,
+		syncbar_element		: null,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -204,22 +206,21 @@
 				height	: this.chart_squsize * 0.2,
 				fill	: '#444'
 			});
-			this.appendSvg(chartzone,'rect', {
+			this.syncbar_element = this.appendSvg(chartzone,'rect', {
 				x		: 0,
 				y		: this.chart_squsize * 0.9,
 				width	: this.chart_squsize * 7,
 				height	: this.chart_squsize * 0.2,
 				fill	: '#ccc',
-				id 		: 'tonality'
+				id 		: 'syncbar'
 			});
-			var syncer = this.appendSvg(chartzone,'polygon', {
+			this.syncer_element = this.appendSvg(chartzone,'polygon', {
 				points	: '-10,0 10,0 0,38',
 				fill	: '#ddd',
 				id		: 'syncer'
 			});
-
-			syncer.addEventListener("animationstart", this.event_synctop, false);
-			syncer.addEventListener("animationiteration", this.event_synctop, false);
+			this.syncer_element.addEventListener("animationstart", this.event_synctop, false);
+			this.syncer_element.addEventListener("animationiteration", this.event_synctop, false);
 		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
@@ -276,13 +277,13 @@
 		top_on : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0.5;
-				document.getElementById('syncer').style.fill = '#ddd';
+				self.syncer_element.style.fill = '#ddd';
 			}
 		},
 		top_off : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0;
-				document.getElementById('syncer').style.fill = '#555';
+				self.syncer_element.style.fill = '#555';
 			}
 		},
 		sound : function() {
@@ -307,13 +308,12 @@
 				this.oscillator.start();
 			}
 
-			var bar = document.querySelector('#tonality');
 			if (typeof this.scene.synctop === "object") {
-				bar.setAttribute('x', Math.round(this.chart_squsize*7 * 500 / 2000)+'px' );
-				bar.setAttribute('width', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
+				this.syncbar_element.setAttribute('x', Math.round(this.chart_squsize*7 * 500 / 2000)+'px' );
+				this.syncbar_element.setAttribute('width', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
 			} else {
-				bar.setAttribute('x', '0px' );
-				bar.setAttribute('width', this.chart_squsize*7 +'px' );
+				this.syncbar_element.setAttribute('x', '0px' );
+				this.syncbar_element.setAttribute('width', this.chart_squsize*7 +'px' );
 			}
 		},
 		screen : function() {
