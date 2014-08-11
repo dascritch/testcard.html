@@ -16,6 +16,26 @@ WARNING
 Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters !
 This code is only for testing video-projections before talks, and also unveils some rendering bugs on browsers
 
+Howto
+-----
+Create a minimalist HTML page.
+```html 
+<script src="testcard.js"></script>
+<script type="text/json">
+{
+	"default" : {
+		( your default parameters)
+	},
+	"scenes" : [
+	    { ( each scene parameters) }
+	]
+}
+```
+
+That's the whole you need. 
+
+You can have as many html files with its own parameters as you want. Easiest to have a collection of tests.
+
 Parameters
 ----------
 Those values are globals or by scene.
@@ -25,14 +45,14 @@ Those values are globals or by scene.
 |`back`   |Colour of the background in RGB-hex value.         |`"777777"`|
 |`img`    |URL for the background image                       ||
 |`video`  |URL for the video. Autoplayed                      ||
-|`youtube`|ID for a Youtube video                             ||
-|`vimeo`  |ID for a Vimeo video                               ||
+|`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  ||
+|`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       ||
 |`capture`|Mirorring the webcam                               ||
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
-|`countdownfor`|time displayed is a countdown for the indicated unix timestamp. Format should be `"hh:mm:ss"`||
-|`sound`  |test sound. should be `{ "wave":"sine","freq":1000 }`            |''|
-|`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{ "loop":2000,"length":100 }`            ||
+|`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`||
+|`sound`  |test sound. should be `{"wave":"sine","freq":1000}`            |''|
+|`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{"loop":2000,"length":100}`    ||
 
 Those values are purely global and cannot be changed per scene
 
