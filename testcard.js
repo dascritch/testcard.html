@@ -44,6 +44,7 @@
 		gainNode			: null,
 		syncer_element		: null,
 		syncbar_element		: null,
+		offsync_animation	: 500,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -270,9 +271,8 @@
 				return;
 			}
 
-			var out_of_sync = 500;
-			window.setTimeout(self.top_on,out_of_sync);
-			window.setTimeout(self.top_off,out_of_sync + self.scene.synctop.length);
+			window.setTimeout(self.top_on,self.offsync_animation);
+			window.setTimeout(self.top_off,self.offsync_animation + self.scene.synctop.length);
 		},
 		top_on : function() {
 			if (self.gainNode !== null) {
@@ -287,8 +287,8 @@
 			}
 		},
 		sound : function() {
-			if (self.oscillator !== null) {
-				self.oscillator.stop();
+			if (this.oscillator !== null) {
+				this.oscillator.stop();
 			}
 			this.oscillator = null;
 			this.gainNode = null;
@@ -305,15 +305,20 @@
 				this.oscillator.type = this.scene.sound.wave || 'sine';
 				this.oscillator.frequency.value = this.scene.sound.freq || 1000;
 				this.oscillator.start();
-				this.top_off();
 			}
 
 			if (typeof this.scene.synctop === "object") {
-				this.syncbar_element.setAttribute('x', Math.round(this.chart_squsize*7 * 500 / 2000)+'px' );
-				this.syncbar_element.setAttribute('width', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
+				this.scene.synctop.length = this.scene.synctop.length || 100;
+				this.scene.synctop.loop = this.scene.synctop.loop || 100; 
+				this.offsync_animation = this.scene.synctop.loop / 4;
+				this.syncbar_element.setAttribute('width', Math.round(this.chart_squsize*7 * this.scene.synctop.length / this.scene.synctop.loop)+'px' );
+				this.syncbar_element.setAttribute('x', Math.round(this.offsync_animation * this.chart_squsize*7 / this.scene.synctop.loop)+'px' );
+				this.top_off();
 			} else {
-				this.syncbar_element.setAttribute('x', '0px' );
+				this.offsync_animation = 0;
 				this.syncbar_element.setAttribute('width', this.chart_squsize*7 +'px' );
+				this.syncbar_element.setAttribute('x', '0px' );
+				this.top_on();
 			}
 		},
 		screen : function() {
