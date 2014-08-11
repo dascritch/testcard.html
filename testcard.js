@@ -303,7 +303,7 @@
 
 				this.oscillator.type = this.scene.sound.wave || 'sine';
 				this.oscillator.frequency.value = this.scene.sound.freq || 1000;
-				this.gainNode.gain.value = 0.5;
+				this.top_off();
 				this.oscillator.start();
 			}
 
