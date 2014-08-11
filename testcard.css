@@ -1,30 +1,30 @@
 @font-face {
 	font-family: 'Titillium Web'; font-style: normal; font-weight: 400;
-	src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Regular.ttf) format('ttf');
+	src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Regular.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: normal; font-weight: 600;
-	src: local('Titillium WebSemiBold'), local('TitilliumWeb-SemiBold'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-SemiBold.ttf) format('ttf');
+	src: local('Titillium WebSemiBold'), local('TitilliumWeb-SemiBold'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-SemiBold.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: normal; font-weight: 700;
-	src: local('Titillium WebBold'), local('TitilliumWeb-Bold'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Bold.ttf) format('ttf');
+	src: local('Titillium WebBold'), local('TitilliumWeb-Bold'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Bold.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: normal; font-weight: 900;
-	src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Black.ttf) format('ttf');
+	src: local('Titillium WebBlack'), local('TitilliumWeb-Black'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Black.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: italic; font-weight: 400;
-	src: local('Titillium WebItalic'), local('TitilliumWeb-Italic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Italic.ttf) format('ttf');
+	src: local('Titillium WebItalic'), local('TitilliumWeb-Italic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-Italic.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: italic; font-weight: 600;
-	src: local('Titillium WebSemiBold Italic'), local('TitilliumWeb-SemiBoldItalic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-SemiBoldItalic.ttf) format('ttf');
+	src: local('Titillium WebSemiBold Italic'), local('TitilliumWeb-SemiBoldItalic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-SemiBoldItalic.ttf?fromTestCard) format('ttf');
 }
 @font-face {
 	font-family: 'Titillium Web'; font-style: italic; font-weight: 700;
-	src: local('Titillium WebBold Italic'), local('TitilliumWeb-BoldItalic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-BoldItalic.ttf) format('ttf');
+	src: local('Titillium WebBold Italic'), local('TitilliumWeb-BoldItalic'), url(http://dascritch.net/themes/DSN13/fonts/TitilliumWeb-BoldItalic.ttf?fromTestCard) format('ttf');
 }
 
 html, body, main, section, aside, p , span , var , svg, img {
