@@ -31,7 +31,7 @@ Those values are globals or by scene.
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
 |`countdownfor`|time displayed is a countdown for the indicated unix timestamp. Format should be `"hh:mm:ss"`||
-|`sound`  |test sound. should be `{ "wave":"sine","hz":"1000" }`            |''|
+|`sound`  |test sound. should be `{ "wave":"sine","freq":1000 }`            |''|
 |`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{ "loop":2000,"length":100 }`            ||
 
 Those values are purely global and cannot be changed per scene
