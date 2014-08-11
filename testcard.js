@@ -277,14 +277,14 @@
 		top_on : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0.5;
-				self.syncer_element.style.fill = '#ddd';
 			}
+			self.syncer_element.style.fill = '#ddd';
 		},
 		top_off : function() {
 			if (self.gainNode !== null) {
 				self.gainNode.gain.value = 0;
-				self.syncer_element.style.fill = '#333';
 			}
+			self.syncer_element.style.fill = '#333';
 		},
 		sound : function() {
 			if (this.oscillator !== null) {
@@ -309,10 +309,15 @@
 
 			if (typeof this.scene.synctop === "object") {
 				this.scene.synctop.length = this.scene.synctop.length || 100;
-				this.scene.synctop.loop = this.scene.synctop.loop || 100; 
+				this.scene.synctop.loop = this.scene.synctop.loop || 2000; 
 				this.offsync_animation = this.scene.synctop.loop / 4;
 				this.syncbar_element.setAttribute('width', Math.round(this.chart_squsize*7 * this.scene.synctop.length / this.scene.synctop.loop)+'px' );
 				this.syncbar_element.setAttribute('x', Math.round(this.offsync_animation * this.chart_squsize*7 / this.scene.synctop.loop)+'px' );
+				this.syncer_element.style.animationDuration = this.scene.synctop.loop +'ms';
+				if (this.syncer_element.style.webkitAnimationDuration !== undefined) {
+					// we have yet prefixed webkits
+					this.syncer_element.style.webkitAnimationDuration = this.syncer_element.style.animationDuration;
+				}
 				this.top_off();
 			} else {
 				this.offsync_animation = 0;

@@ -111,12 +111,17 @@ rect {
 }
 
 #syncer {
-	-webkit-animation : syncer 2s infinite;
+	-webkit-animation-name : syncer;
+	-webkit-animation-iteration-count : infinite;
 	-webkit-animation-fill-mode : fowards;
 	-webkit-animation-timing-function : linear;
-	animation : syncer 2s infinite;
+	animation-name : syncer;
+	animation-iteration-count : infinite;
 	animation-fill-mode : fowards;
 	animation-timing-function : linear;
+/* bizzarely not working */
+	-webkit-animation-duration : 2s;
+	animation-duration : 2s;
 }
 
 @keyframes syncer {
