@@ -220,8 +220,12 @@
 				fill	: '#ddd',
 				id		: 'syncer'
 			});
-			this.syncer_element.addEventListener("animationstart", this.event_synctop, false);
-			this.syncer_element.addEventListener("animationiteration", this.event_synctop, false);
+			var seek = [	'animationstart', 'animationiteration',
+							'webkitAnimationStart', 'webkitAnimationIteration',
+							'MSAnimationStart', 'MSAnimationIteration' ];
+			for( var i in seek ) {
+				this.syncer_element.addEventListener(seek[i], this.event_synctop, false);	
+			}
 		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
@@ -270,7 +274,6 @@
 			if (typeof self.scene.synctop !== "object") {
 				return;
 			}
-
 			window.setTimeout(self.top_on,self.offsync_animation);
 			window.setTimeout(self.top_off,self.offsync_animation + self.scene.synctop.length);
 		},
