@@ -41,6 +41,7 @@
 		scene_element		: null,
 		chart_svg			: {},
 		oscillator			: null,
+		gainNode			: null,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -201,13 +202,24 @@
 				y		: this.chart_squsize * 0.9,
 				width	: this.chart_squsize * 7,
 				height	: this.chart_squsize * 0.2,
-				fill	: '#ccc'
+				fill	: '#444'
+			});
+			this.appendSvg(chartzone,'rect', {
+				x		: 0,
+				y		: this.chart_squsize * 0.9,
+				width	: this.chart_squsize * 7,
+				height	: this.chart_squsize * 0.2,
+				fill	: '#ccc',
+				id 		: 'tonality'
 			});
 			var syncer = this.appendSvg(chartzone,'polygon', {
 				points	: '-10,0 10,0 0,38',
 				fill	: '#ddd',
 				id		: 'syncer'
 			});
+
+			syncer.addEventListener("animationstart", this.event_synctop, false);
+			syncer.addEventListener("animationiteration", this.event_synctop, false);
 		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
@@ -252,26 +264,54 @@
 
 			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
 		},
-		sound : function() {
-			// tone
-			if (this.oscillator !== null) {
-				this.oscillator.stop();
+		event_synctop : function(event) {
+			if (typeof self.scene.synctop !== "object") {
+				return;
 			}
 
+			var out_of_sync = 100;
+			window.setTimeout(self.top_on,out_of_sync);
+			window.setTimeout(self.top_off,out_of_sync + self.scene.synctop.length);
+		},
+		top_on : function() {
+			if (self.gainNode !== null) {
+				self.gainNode.gain.value = 0.5;
+			}
+		},
+		top_off : function() {
+			if (self.gainNode !== null) {
+				self.gainNode.gain.value = 0;
+			}
+		},
+		sound : function() {
+			if (self.oscillator !== null) {
+				self.oscillator.stop();
+			}
 			this.oscillator = null;
+			this.gainNode = null;
+
 			if ((this.scene.sound !== undefined) && (typeof this.scene.sound === "object")) {
 				var audioCtx = new window.AudioContext();
 
 				// create Oscillator node
 				this.oscillator = audioCtx.createOscillator();
-				var gainNode = audioCtx.createGain();
-				this.oscillator.connect(gainNode);
-				gainNode.connect(audioCtx.destination);
+				this.gainNode = audioCtx.createGain();
+				this.oscillator.connect(this.gainNode);
+				this.gainNode.connect(audioCtx.destination);
 
 				this.oscillator.type = this.scene.sound.wave || 'sine';
 				this.oscillator.frequency.value = this.scene.sound.freq || 1000;
-				gainNode.gain.value = 0.5;
+				this.gainNode.gain.value = 0.5;
 				this.oscillator.start();
+			}
+
+			var bar = document.querySelector('#tonality');
+			if (typeof this.scene.synctop === "object") {
+				bar.setAttribute('x', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
+				bar.setAttribute('width', Math.round(this.chart_squsize*7 * 100 / 2000)+'px' );
+			} else {
+				bar.setAttribute('x', '0px' );
+				bar.setAttribute('width', this.chart_squsize*7 +'px' );
 			}
 		},
 		screen : function() {
@@ -384,7 +424,7 @@
 			self.scene_index = self.scene_index > self.parameters.scenes.length ? 0 : ++self.scene_index;
 			self.play();
 		},
-		keyboard : function(event) {
+		event_keyboard : function(event) {
 			switch ( event.keyCode ) {
 				case 37 :
 					self.previous();
@@ -405,7 +445,7 @@
 			self.pixels_check();
 			window.addEventListener('resize',self.pixels_check)
 
-			document.addEventListener('keydown',self.keyboard);
+			document.addEventListener('keydown',self.event_keyboard);
 			document.getElementById('overscan-left').addEventListener('click',self.previous);
 			document.getElementById('overscan-right').addEventListener('click',self.next);
 		}

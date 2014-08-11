@@ -49,6 +49,7 @@ Known bugs
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 * countdown not ready yet
 * capture mode (webcam) not ready yet
+* `synctop` not working in audio for webkit
 
 TODO
 ----
