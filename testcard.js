@@ -59,6 +59,10 @@
 		syncer_element		: null,
 		syncbar_element		: null,
 		offsync_animation	: 500,
+		capture				: ( navigator.getUserMedia ||
+								navigator.webkitGetUserMedia ||
+								navigator.mozGetUserMedia ||
+								navigator.msGetUserMedia),
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -409,12 +413,8 @@
 							});
 							break;
 						case 'capture' :
-							navigator.getMedia = ( navigator.getUserMedia ||
-												navigator.webkitGetUserMedia ||
-												navigator.mozGetUserMedia ||
-												navigator.msGetUserMedia);
-							if (navigator.getMedia) {
-								navigator.getMedia(
+							if (this.capture) {
+								this.capture(
 									{
 										video: true,
 										audio: false
@@ -432,8 +432,10 @@
 										self.scene_element.play();
 									},
 									function(err) {
-										console.log("An error occured! " + err);
+										console.info('Error on capture : ', err);
 									});
+							} else {
+								console.info('Cannot capture webcam');
 							}
 							break;
 					}
