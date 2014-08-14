@@ -409,6 +409,7 @@
 							});
 							break;
 						case 'capture' :
+							var navigator = window.navigator;
 							if (typeof navigator.getUserMedia !== 'function') {
 								navigator.getUserMedia	= (
 									navigator.webkitGetUserMedia ||
