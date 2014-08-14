@@ -421,7 +421,7 @@
 										video: true,
 										audio: false
 									},function(stream) {
-										this.scene_element = this.append(this.main,'video',{
+										self.scene_element = self.append(self.main,'video',{
 											id			: 'playback',
 											'class'		: 'fullCroped',
 										});
