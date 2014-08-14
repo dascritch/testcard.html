@@ -59,6 +59,8 @@
 		syncer_element		: null,
 		syncbar_element		: null,
 		offsync_animation	: 500,
+
+		navigator			: window.navigator,
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -243,6 +245,14 @@
 				this.syncer_element.addEventListener(seek[i], this.event_synctop, false);
 			}
 		},
+		build_unprefix_browsers : function() {
+			if (typeof this.navigator.getUserMedia !== 'function') {
+				this.navigator.getUserMedia	= (
+					this.navigator.webkitGetUserMedia ||
+					this.navigator.mozGetUserMedia ||
+					this.navigator.msGetUserMedia);
+			}
+		},
 		build : function() {
 			//this.append(document.body,'meta', { charset : "utf-8" });
 			this.append(document.body,'link',{
@@ -254,6 +264,8 @@
 			this.append(document.body,'section',{id:'rez'});
 			this.append(document.getElementById('rez'),'p',{},
 					'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
+
+			this.build_unprefix_browsers();
 
 			var chartzone = this.append(document.body,'section',{ id : 'charts' });
 			var p;
@@ -279,6 +291,8 @@
 			}
 
 			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
+
+
 		},
 		event_synctop : function(event) {
 			if (typeof self.scene.synctop !== "object") {
@@ -338,6 +352,19 @@
 				this.syncbar_element.setAttribute('x', '0px' );
 				this.top_on();
 			}
+		},
+		onwebcam : function (stream) {
+			var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
+			self.scene_element = self.append(self.main,'video',{
+				id			: 'playback',
+				'class'		: 'fullCroped',
+			});
+			if (typeof self.navigator.mozGetUserMedia === 'function') {
+				self.scene_element.mozSrcObject = stream;
+			} else {
+				self.scene_element.src = createSrc(stream);
+			}
+			self.scene_element.play();
 		},
 		screen : function() {
 			// setting background
@@ -409,32 +436,12 @@
 							});
 							break;
 						case 'capture' :
-							var navigator = window.navigator;
-							if (typeof navigator.getUserMedia !== 'function') {
-								navigator.getUserMedia	= (
-									navigator.webkitGetUserMedia ||
-									navigator.mozGetUserMedia ||
-									navigator.msGetUserMedia);
-							}
-							var onwebcam = function (stream) {
-								var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
-								self.scene_element = self.append(self.main,'video',{
-									id			: 'playback',
-									'class'		: 'fullCroped',
-								});
-								if (typeof navigator.mozGetUserMedia === 'function') {
-									self.scene_element.mozSrcObject = stream;
-								} else {
-									self.scene_element.src = createSrc(stream);
-								}
-								self.scene_element.play();
-							}
-							if (typeof navigator.getUserMedia === 'function') {
-								navigator.getUserMedia(
+							if (typeof this.navigator.getUserMedia === 'function') {
+								self.navigator.getUserMedia(
 									{
 										video: true,
 										audio: false
-									},onwebcam,
+									},self.onwebcam,
 									function(err) {
 										console.info('Error on capture : ', err);
 									});
