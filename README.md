@@ -5,7 +5,7 @@ Static HTML5 page. Helping to calibrate projection before a talk.
 
 Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
-Orignially inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
+Originally inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
 Version 0.3pre
 
@@ -51,7 +51,7 @@ Those values are global or by scene.
 |`video`  |URL for the video. Autoplayed                      |omitted|
 |`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  |omitted|
 |`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       |omitted|
-|`capture`|Mirorring the webcam                               |omitted|
+|`capture`|Mirorring the webcam. Write `"capture":true`       |omitted|
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
 |`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`|omitted|
@@ -76,17 +76,17 @@ Those values are purely global and cannot be changed per scene
 
 Known bugs
 ----------
-* The « dppx » value on Safari desktop is not accurate when zooming
+* The « *dppx* » value on Safari desktop is not accurate when zooming
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 
 TODO
 ----
+* Capture mode on webkits
 * YUV and other special colorspaces, with degradees
-* dynamic slide source (option `capture` aka webcam is not ready yet)
 * slide script generator
-* audio sync chart synced with a (local) video. by example https://www.youtube.com/watch?v=kxopViU98Xo
-* audio from a stream
-* audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
+* audio sync chart synced with a local video. [*This* kind of video](https://www.youtube.com/watch?v=kxopViU98Xo)
+* audio from a stream.
+* audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , especially <http://jsbin.com/eheyim>
 
 Licence
 -------
@@ -98,13 +98,15 @@ Design derivated from [Ryan Gilmore](http://www.urbanspaceman.net/), rights to b
 Versions
 --------
 * August 2014 : 0.3
-  * full parametric 
+  * full parametric
   * layout auto-constructive
   * minimal html 
   * synctop 
   * correct countdown
-  * 
-* July 2014 : 0.2 , json parameters embeded in html, video inclusion from URL, youtube, vimeo.
+  * capture
+* July 2014 : 0.2
+  * json parameters embeded in html
+  * video inclusion from URL, youtube, vimeo
 * June 2014 : 0.1 , first release.
   * static html.
   * Contrast, h-sharpness, colours charts
