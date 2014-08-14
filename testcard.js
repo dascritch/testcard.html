@@ -415,24 +415,25 @@
 									navigator.mozGetUserMedia ||
 									navigator.msGetUserMedia);
 							}
-							var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
+							var onwebcam = function (stream) {
+								var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
+								self.scene_element = self.append(self.main,'video',{
+									id			: 'playback',
+									'class'		: 'fullCroped',
+								});
+								if (navigator.mozGetUserMedia) {
+									self.scene_element.mozSrcObject = stream;
+								} else {
+									self.scene_element.src = createSrc(stream);
+								}
+								self.scene_element.play();
+							}
 							if (typeof navigator.getUserMedia === 'function') {
 								navigator.getUserMedia(
 									{
 										video: true,
 										audio: false
-									},function(stream) {
-										self.scene_element = self.append(self.main,'video',{
-											id			: 'playback',
-											'class'		: 'fullCroped',
-										});
-										if (navigator.mozGetUserMedia) {
-											self.scene_element.mozSrcObject = stream;
-										} else {
-											self.scene_element.src = createSrc(stream);
-										}
-										self.scene_element.play();
-									},
+									},onwebcam,
 									function(err) {
 										console.info('Error on capture : ', err);
 									});
