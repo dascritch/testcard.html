@@ -86,7 +86,7 @@ TODO
 * slide script generator
 * audio sync chart synced with a local video. [*This* kind of video](https://www.youtube.com/watch?v=kxopViU98Xo)
 * audio from a stream.
-* audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , espacially <http://jsbin.com/eheyim>
+* audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , especially <http://jsbin.com/eheyim>
 
 Licence
 -------
