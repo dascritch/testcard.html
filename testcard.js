@@ -240,7 +240,7 @@
 							'webkitAnimationStart', 'webkitAnimationIteration',
 							'MSAnimationStart', 'MSAnimationIteration' ];
 			for( var i in seek ) {
-				this.syncer_element.addEventListener(seek[i], this.event_synctop, false);	
+				this.syncer_element.addEventListener(seek[i], this.event_synctop, false);
 			}
 		},
 		build : function() {
