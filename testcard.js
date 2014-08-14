@@ -59,10 +59,6 @@
 		syncer_element		: null,
 		syncbar_element		: null,
 		offsync_animation	: 500,
-		capture				: ( navigator.getUserMedia ||
-								navigator.webkitGetUserMedia ||
-								navigator.mozGetUserMedia ||
-								navigator.msGetUserMedia),
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
 			for(i in obj1) {
@@ -413,8 +409,14 @@
 							});
 							break;
 						case 'capture' :
-							if (this.capture) {
-								this.capture(
+							if (!navigator.getUserMedia) {
+								navigator.getUserMedia	= (
+									navigator.webkitGetUserMedia ||
+									navigator.mozGetUserMedia ||
+									navigator.msGetUserMedia);
+							}
+							if (navigator.getUserMedia) {
+								navigator.getUserMedia(
 									{
 										video: true,
 										audio: false
