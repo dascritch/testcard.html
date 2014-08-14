@@ -78,6 +78,7 @@ Known bugs
 ----------
 * The « *dppx* » value on Safari desktop is not accurate when zooming
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
+* Chrome, Safari and other webkit engines won't let you use capture (webcam, micro) on local files. Firefox accepts it.
 
 TODO
 ----

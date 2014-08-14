@@ -415,6 +415,7 @@
 									navigator.mozGetUserMedia ||
 									navigator.msGetUserMedia);
 							}
+							var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
 							if (typeof navigator.getUserMedia === 'function') {
 								navigator.getUserMedia(
 									{
@@ -428,8 +429,7 @@
 										if (navigator.mozGetUserMedia) {
 											self.scene_element.mozSrcObject = stream;
 										} else {
-											var vendorURL = window.URL || window.webkitURL;
-											self.scene_element.src = vendorURL.createObjectURL(stream);
+											self.scene_element.src = video.src = createSrc(stream);
 										}
 										self.scene_element.play();
 									},
