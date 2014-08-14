@@ -421,7 +421,7 @@
 									id			: 'playback',
 									'class'		: 'fullCroped',
 								});
-								if (navigator.mozGetUserMedia) {
+								if (typeof navigator.mozGetUserMedia === 'function') {
 									self.scene_element.mozSrcObject = stream;
 								} else {
 									self.scene_element.src = createSrc(stream);
