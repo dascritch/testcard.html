@@ -5,7 +5,7 @@ Static HTML5 page. Helping to calibrate projection before a talk.
 
 Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
-Orignially inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
+Originally inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
 Version 0.3pre
 
@@ -76,7 +76,7 @@ Those values are purely global and cannot be changed per scene
 
 Known bugs
 ----------
-* The « dppx » value on Safari desktop is not accurate when zooming
+* The «* dppx *» value on Safari desktop is not accurate when zooming
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 
 TODO
@@ -98,13 +98,14 @@ Design derivated from [Ryan Gilmore](http://www.urbanspaceman.net/), rights to b
 Versions
 --------
 * August 2014 : 0.3
-  * full parametric 
+  * full parametric
   * layout auto-constructive
   * minimal html 
   * synctop 
   * correct countdown
-  * 
-* July 2014 : 0.2 , json parameters embeded in html, video inclusion from URL, youtube, vimeo.
+* July 2014 : 0.2
+  * json parameters embeded in html
+  * video inclusion from URL, youtube, vimeo
 * June 2014 : 0.1 , first release.
   * static html.
   * Contrast, h-sharpness, colours charts
