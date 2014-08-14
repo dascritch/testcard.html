@@ -417,19 +417,18 @@
 													navigator.webkitGetUserMedia ||
 													navigator.mozGetUserMedia ||
 													navigator.msGetUserMedia);
-
 							navigator.getMedia(
 								{
 									video: true,
 									audio: false
 								},function(stream) {
 									if (navigator.mozGetUserMedia) {
-										this.scene_element.mozSrcObject = stream;
+										self.scene_element.mozSrcObject = stream;
 									} else {
 										var vendorURL = window.URL || window.webkitURL;
-										this.scene_element.src = vendorURL.createObjectURL(stream);
-										this.scene_element.play();
+										self.scene_element.src = vendorURL.createObjectURL(stream);
 									}
+									self.scene_element.play();
 								},
 								function(err) {
 									console.log("An error occured! " + err);

@@ -51,7 +51,7 @@ Those values are global or by scene.
 |`video`  |URL for the video. Autoplayed                      |omitted|
 |`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  |omitted|
 |`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       |omitted|
-|`capture`|Mirorring the webcam                               |omitted|
+|`capture`|Mirorring the webcam. Write `"capture":true`       |omitted|
 |`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
 |`time`   | time format                                       |`"hh:mm:ss"`|
 |`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`|omitted|
@@ -81,8 +81,8 @@ Known bugs
 
 TODO
 ----
+* Capture mode on webkits
 * YUV and other special colorspaces, with degradees
-* dynamic slide source (option `capture` aka webcam is not ready yet)
 * slide script generator
 * audio sync chart synced with a local video. [*This* kind of video](https://www.youtube.com/watch?v=kxopViU98Xo)
 * audio from a stream.
@@ -103,6 +103,7 @@ Versions
   * minimal html 
   * synctop 
   * correct countdown
+  * capture
 * July 2014 : 0.2
   * json parameters embeded in html
   * video inclusion from URL, youtube, vimeo
