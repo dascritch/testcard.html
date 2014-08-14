@@ -458,18 +458,22 @@
 			self.screen();
 		},
 		previous : function() {
-			window.location.hash = ( --self.scene_index ).toString();
+			window.location.replace('#'+( --self.scene_index ).toString());
+			//window.location.hash = ( --self.scene_index ).toString();
 		},
 		next : function() {
-			window.location.hash = ( ++self.scene_index ).toString();
+			window.location.replace('#'+( ++self.scene_index ).toString());
+			//window.location.hash = ( ++self.scene_index ).toString();
 		},
 		event_keyboard : function(event) {
 			switch ( event.keyCode ) {
 				case 35 :
-					window.location.hash = (self.parameters.scenes.length -1).toString();
+					//window.location.hash = (self.parameters.scenes.length -1).toString();
+					window.location.replace('#'+( self.parameters.scenes.length -1 ).toString());
 					break;
 				case 36 :
-					window.location.hash = '';
+					//window.location.hash = '';
+					window.location.replace('#');
 					break;
 				case 37 :
 					self.previous();
