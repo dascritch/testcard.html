@@ -414,16 +414,15 @@
 												navigator.mozGetUserMedia ||
 												navigator.msGetUserMedia);
 							if (navigator.getMedia) {
-								this.scene_element = this.append(this.main,'video',{
-									id			: 'playback',
-									'class'		: 'fullAdapt',
-								});
-
 								navigator.getMedia(
 									{
 										video: true,
 										audio: false
 									},function(stream) {
+										this.scene_element = this.append(this.main,'video',{
+											id			: 'playback',
+											'class'		: 'fullCroped',
+										});
 										if (navigator.mozGetUserMedia) {
 											self.scene_element.mozSrcObject = stream;
 										} else {
@@ -459,20 +458,16 @@
 		},
 		previous : function() {
 			window.location.replace('#'+( --self.scene_index ).toString());
-			//window.location.hash = ( --self.scene_index ).toString();
 		},
 		next : function() {
 			window.location.replace('#'+( ++self.scene_index ).toString());
-			//window.location.hash = ( ++self.scene_index ).toString();
 		},
 		event_keyboard : function(event) {
 			switch ( event.keyCode ) {
 				case 35 :
-					//window.location.hash = (self.parameters.scenes.length -1).toString();
 					window.location.replace('#'+( self.parameters.scenes.length -1 ).toString());
 					break;
 				case 36 :
-					//window.location.hash = '';
 					window.location.replace('#');
 					break;
 				case 37 :
