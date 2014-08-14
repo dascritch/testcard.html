@@ -409,30 +409,33 @@
 							});
 							break;
 						case 'capture' :
-							this.scene_element = this.append(this.main,'video',{
-								id			: 'playback',
-								'class'		: 'fullAdapt',
-							});
 							navigator.getMedia = ( navigator.getUserMedia ||
-													navigator.webkitGetUserMedia ||
-													navigator.mozGetUserMedia ||
-													navigator.msGetUserMedia);
-							navigator.getMedia(
-								{
-									video: true,
-									audio: false
-								},function(stream) {
-									if (navigator.mozGetUserMedia) {
-										self.scene_element.mozSrcObject = stream;
-									} else {
-										var vendorURL = window.URL || window.webkitURL;
-										self.scene_element.src = vendorURL.createObjectURL(stream);
-									}
-									self.scene_element.play();
-								},
-								function(err) {
-									console.log("An error occured! " + err);
+												navigator.webkitGetUserMedia ||
+												navigator.mozGetUserMedia ||
+												navigator.msGetUserMedia);
+							if (navigator.getMedia) {
+								this.scene_element = this.append(this.main,'video',{
+									id			: 'playback',
+									'class'		: 'fullAdapt',
 								});
+
+								navigator.getMedia(
+									{
+										video: true,
+										audio: false
+									},function(stream) {
+										if (navigator.mozGetUserMedia) {
+											self.scene_element.mozSrcObject = stream;
+										} else {
+											var vendorURL = window.URL || window.webkitURL;
+											self.scene_element.src = vendorURL.createObjectURL(stream);
+										}
+										self.scene_element.play();
+									},
+									function(err) {
+										console.log("An error occured! " + err);
+									});
+							}
 							break;
 					}
 					has = true;
