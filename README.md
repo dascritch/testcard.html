@@ -52,8 +52,8 @@ Those values are global or by scene.
 |`youtube`|ID for a Youtube video. Example : `"kxopViU98Xo"`  |omitted|
 |`vimeo`  |ID for a Vimeo video. Example : `"70580647"`       |omitted|
 |`capture`|Mirorring the webcam. Write `"capture":true`       |omitted|
-|`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"`]|
-|`time`   | time format                                       |`"hh:mm:ss"`|
+|`charts` |displayed charts. No more than 3 or 4              |`["contrast", "sharpness", "colour"]`|
+|`time`   |time format                                        |`"hh:mm:ss"`|
 |`countdownfor`|time displayed is a countdown for the next indicated hour, today or tomorrow. Format should be `"hh:mm:ss"`|omitted|
 |`sound`  |test sound. should be `{"wave":"sine","freq":1000}`            |omitted|
 |`synctop`|time lengths in milliseconds for the `synctop` chart. should be `{"loop":2000,"length":100}`    |omitted|
@@ -82,11 +82,11 @@ Known bugs
 
 TODO
 ----
-* Capture mode on webkits
 * YUV and other special colorspaces, with degradees
+* audio from a URL (stream or local file)
+* countdown linked to a video or audio length
 * slide script generator
 * audio sync chart synced with a local video. [*This* kind of video](https://www.youtube.com/watch?v=kxopViU98Xo)
-* audio from a stream.
 * audio vu-meter a la <http://www.html5audio.org/2012/09/visualizing-audio-elements-with-the-web-audio-api.html> , especially <http://jsbin.com/eheyim>
 
 Licence
