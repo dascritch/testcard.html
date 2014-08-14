@@ -409,13 +409,13 @@
 							});
 							break;
 						case 'capture' :
-							if (!navigator.getUserMedia) {
+							if (typeof navigator.getUserMedia !== 'function') {
 								navigator.getUserMedia	= (
 									navigator.webkitGetUserMedia ||
 									navigator.mozGetUserMedia ||
 									navigator.msGetUserMedia);
 							}
-							if (navigator.getUserMedia) {
+							if (typeof navigator.getUserMedia === 'function') {
 								navigator.getUserMedia(
 									{
 										video: true,
