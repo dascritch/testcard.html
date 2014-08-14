@@ -76,7 +76,7 @@ Those values are purely global and cannot be changed per scene
 
 Known bugs
 ----------
-* The «* dppx *» value on Safari desktop is not accurate when zooming
+* The « *dppx* » value on Safari desktop is not accurate when zooming
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 
 TODO
