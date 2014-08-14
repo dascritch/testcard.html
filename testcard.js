@@ -429,7 +429,7 @@
 										if (navigator.mozGetUserMedia) {
 											self.scene_element.mozSrcObject = stream;
 										} else {
-											self.scene_element.src = video.src = createSrc(stream);
+											self.scene_element.src = createSrc(stream);
 										}
 										self.scene_element.play();
 									},
