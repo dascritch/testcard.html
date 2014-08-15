@@ -411,8 +411,13 @@
 		},
 		screen : function() {
 			// setting background
-			if ( (this.scene_element !== null) && (typeof this.scene_element.remove === 'function') ) {
-				this.scene_element.remove()
+			if (this.scene_element !== null) {
+				if (typeof this.scene_element.remove === 'function') {
+					this.scene_element.remove();
+				} else {
+					// ABSOLUTELY A BAD IDEA, but no way to get rid off phantomatic iframes
+					delete this.scene_element;
+				}
 			}
 			// this one for MSIE
 			this.main.innerHTML = '';
