@@ -61,28 +61,31 @@
 		offsync_animation	: 500,
 
 		navigator			: window.navigator,
+
 		mergeArrays : function (obj1,obj2) {
 			var i, out = {};
-			for(i in obj1) {
-				out[i] = obj1[i];
+			for (i in obj1) {
+				if (obj1.hasOwnProperty(i)) out[i] = obj1[i];
 			}
-			for(i in obj2) {
-				out[i] = obj2[i];
+			for (i in obj2) {
+				if (obj2.hasOwnProperty(i)) out[i] = obj2[i];
 			}
 			return out;
 		},
+
 		pixels_check : function() {
 			document.getElementById('pixels_horizontal').textContent = window.innerWidth;
 			document.getElementById('pixels_vertical').textContent = window.innerHeight;
 			document.getElementById('pixels_ratio').textContent = window.devicePixelRatio.toFixed(2);
 		},
+
 		twodigits : function(num) {
 			return num<10 ? ('0' + num) : num;
 		},
 		colons : function(nums) {
-			var out = '';
-			for (var i in nums) {
-				out += (out === '' ? '' : ':') + this.twodigits(nums[i]);
+			var i, out = '';
+			for (i in nums) {
+				if (nums.hasOwnProperty(i))  out += (out === '' ? '' : ':') + this.twodigits(nums[i]);
 			}
 			return out;
 		},
@@ -109,21 +112,24 @@
 					out = self.colons([h,m,s,Math.round(cs/4)]);
 					break;
 				case 'hexnolife' :
-					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6)
+					out = Math.round(ms/25).toString(16).toUpperCase().substr(-6);
 					if (out.length < 6) {
 						out = '000000'.substr(out.length) + out;
 					}
 					break;
-				case 'unix' :
+				//case 'unix' :
 				default:
 					out = unix;
 			}
 			document.getElementById('timer').textContent = out;
 		},
+
 		appendAttr : function(element,attributs) {
 			for (var cle in attributs) {
-				var valeur = attributs[cle];
-				element.setAttribute(cle,valeur);
+				if (attributs.hasOwnProperty(cle)) {
+					var valeur = attributs[cle];
+					element.setAttribute(cle,valeur);
+				}
 			}
 		},
 		appendSvg : function (el,nom,attributs) {
@@ -142,6 +148,7 @@
 			}
 			return created;
 		},
+
 		build_sharpness : function() {
 			function classname(cl) {
 				return cl % 2 === 0 ? 'test_sharpnessO' : 'test_sharpnessI';
@@ -179,33 +186,33 @@
 				}
 			}
 		},
-		build_squares : function(chartname,range) {
-			var chartzone = this.chart_svg[chartname];
-			for (var c in range) {
-				this.appendSvg(chartzone,'rect', {
-					x		: 0 + this.chart_squsize * (c%7),
-					y		: this.chart_squsize * Math.floor(c/7),
-					width	: this.chart_squsize * 7,
-					height	: this.chart_squsize * 2,
-					fill	:'#' + range[c]
+		build_squares : function(chartname) {
+			var chartzone = self.chart_svg[chartname];
+			function carre(color,c) {
+				self.appendSvg(chartzone,'rect', {
+					x		: 0 + self.chart_squsize * (c%7),
+					y		: self.chart_squsize * Math.floor(c/7),
+					width	: self.chart_squsize * 7,
+					height	: self.chart_squsize * 2,
+					fill	:'#' + color
 				});
 			}
+			self.defaults[chartname+'s'].forEach(carre);
 		},
 		build_colours : function() {
-			var charts = ['colour','contrast','green','red','blue'];
-			for(var i in charts) {
-				var seg = charts[i];
-				this.build_squares(seg,this.defaults[seg+'s']);
-			}
+			['colour','contrast','green','red','blue'].forEach( this.build_squares );
+
 			var magic_circles = { '0' : 6, '6' : 0, '7' : 13, '13' : 7 };
 			for (var i in magic_circles) {
-				var c = magic_circles[i];
-				this.appendSvg(this.chart_svg.contrast,'circle', {
-					cx		: this.chart_squsize * ( (c%7) + 0.5),
-					cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
-					r		: this.chart_squsize / 4,
-					fill	:'#'+this.defaults.contrasts[i]
-				});
+				if (magic_circles.hasOwnProperty(i)) {
+					var c = magic_circles[i];
+					this.appendSvg(this.chart_svg.contrast,'circle', {
+						cx		: this.chart_squsize * ( (c%7) + 0.5),
+						cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
+						r		: this.chart_squsize / 4,
+						fill	:'#'+this.defaults.contrasts[i]
+					});
+				}
 			}
 		},
 		build_timer : function() {
@@ -238,12 +245,11 @@
 				fill	: '#ddd',
 				id		: 'syncer'
 			});
-			var seek = [	'animationstart', 'animationiteration',
-							'webkitAnimationStart', 'webkitAnimationIteration',
-							'MSAnimationStart', 'MSAnimationIteration' ];
-			for( var i in seek ) {
-				this.syncer_element.addEventListener(seek[i], this.event_synctop, false);
-			}
+			[ 'animationstart', 'animationiteration',
+			'webkitAnimationStart', 'webkitAnimationIteration',
+			'MSAnimationStart', 'MSAnimationIteration' ].forEach( function(event) {
+				self.syncer_element.addEventListener(event, self.event_synctop, false);
+			});
 		},
 		build_unprefix_browsers : function() {
 			if (typeof this.navigator.getUserMedia !== 'function') {
@@ -254,7 +260,6 @@
 			}
 		},
 		build : function() {
-			//this.append(document.body,'meta', { charset : "utf-8" });
 			this.append(document.body,'link',{
 				rel		: 'stylesheet' ,
 				href	: this.default.stylesheet
@@ -270,12 +275,14 @@
 			var chartzone = this.append(document.body,'section',{ id : 'charts' });
 			var p;
 			for (var c in this.default.labels) {
-				p = this.append(chartzone,'p',{ id:c });
-				this.append(p,'span',{},this.default.labels[c]);
-				this.chart_svg[c] = this.appendSvg(p,'svg',{
-					width	: this.chart_squsize*7,
-					height	: this.chart_squsize*2
-				});
+				if (this.default.labels.hasOwnProperty(c)) {
+					p = this.append(chartzone, 'p', { id:c });
+					this.append(p, 'span', {}, this.default.labels[c]);
+					this.chart_svg[c] = this.appendSvg(p, 'svg', {
+						width	: this.chart_squsize*7,
+						height	: this.chart_squsize*2
+					});
+				}
 			}
 			this.build_sharpness();
 			this.build_colours();
@@ -284,22 +291,23 @@
 
 			var aside = this.append(document.body,'aside');
 			for (var edge in this.default.overscans) {
-				var canv = this.appendSvg(
-						this.append(aside,'div',{ id : 'overscan-'+edge }),
-						'svg');
-				this.appendSvg( canv, 'polygon',{ points : this.default.overscans[edge] } );
+				if (this.default.overscans.hasOwnProperty(edge)) {
+					var canv = this.appendSvg(
+							this.append(aside,'div',{ id : 'overscan-'+edge }),
+							'svg');
+					this.appendSvg( canv, 'polygon',{ points : this.default.overscans[edge] } );
+				}
 			}
 
 			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
-
-
 		},
-		event_synctop : function(event) {
+
+		event_synctop : function() {
 			if (typeof self.scene.synctop !== "object") {
 				return;
 			}
-			window.setTimeout(self.top_on,self.offsync_animation);
-			window.setTimeout(self.top_off,self.offsync_animation + self.scene.synctop.length);
+			window.setTimeout(self.top_on, self.offsync_animation);
+			window.setTimeout(self.top_off, self.offsync_animation + self.scene.synctop.length);
 		},
 		top_on : function() {
 			if (self.gainNode !== null) {
@@ -336,7 +344,7 @@
 
 			if (typeof this.scene.synctop === "object") {
 				this.scene.synctop.length = this.scene.synctop.length || 100;
-				this.scene.synctop.loop = this.scene.synctop.loop || 2000; 
+				this.scene.synctop.loop = this.scene.synctop.loop || 2000;
 				this.offsync_animation = this.scene.synctop.loop / 4;
 				this.syncbar_element.setAttribute('width', Math.round(this.chart_squsize*7 * this.scene.synctop.length / this.scene.synctop.loop)+'px' );
 				this.syncbar_element.setAttribute('x', Math.round(this.offsync_animation * this.chart_squsize*7 / this.scene.synctop.loop)+'px' );
@@ -348,11 +356,12 @@
 				this.top_off();
 			} else {
 				this.offsync_animation = 0;
-				this.syncbar_element.setAttribute('width', this.chart_squsize*7 +'px' );
-				this.syncbar_element.setAttribute('x', '0px' );
+				this.syncbar_element.setAttribute('width', this.chart_squsize*7 +'px');
+				this.syncbar_element.setAttribute('x', '0px');
 				this.top_on();
 			}
 		},
+
 		screen_img : function() {
 			this.scene_element = this.append(this.main,'img',{
 				src			: this.scene.img,
@@ -425,12 +434,14 @@
 			this.main.style.backgroundColor = '#'+this.scene.back;
 
 			for (var chart_name in this.default.labels) {
-				var chart = document.getElementById(chart_name);
-				chart.style.display = (this.scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
+				if (this.default.labels.hasOwnProperty(chart_name)) {
+					var chart = document.getElementById(chart_name);
+					chart.style.display = (this.scene.charts.indexOf(chart_name) === -1 ) ? 'none' : 'inline-block' ;
+				}
 			}
 
 			if ((this.scene.charts.indexOf('time') !== -1) && (this.timer_interrupts === false) ) {
-				this.timer_interrupts = window.setInterval(self.time_refresh,50)
+				this.timer_interrupts = window.setInterval(self.time_refresh,50);
 			}
 
 			if ((this.scene.charts.indexOf('time') === -1) && (this.timer_interrupts !== false) ) {
@@ -440,24 +451,24 @@
 
 			this.countdown = false;
 			if (this.scene.countdownfor !== undefined) {
-				var msperhour = 60 * 60 * 1E3
+				var msperhour = 60 * 60 * 1E3;
 				var offset = this.timezoneoffset * msperhour;
 				var msperdays = 24 * msperhour;
-				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') + offset  ;
+				this.countdown = Date.parse(new Date().toISOString().substr(0,11) + self.scene.countdownfor + 'Z') + offset ;
 				this.countdown += (this.countdown < (Date.parse(new Date()))) ? msperdays : 0 ;
 			}
 
 			this.sound();
 
 			var has = false;
-			for (var t in this.available_scenes) {
-				var mode = this.available_scenes[t];
-				if ( (!has) && (this.scene[mode] !== undefined) && (typeof this['screen_'+mode] === 'function') ) {
-					this['screen_'+mode]();
+			this.available_scenes.forEach(function (mode) {
+				if ( (!has) && (self.scene[mode] !== undefined) && (typeof self['screen_'+mode] === 'function') ) {
+					self['screen_'+mode]();
 					has = true;
 				}
-			}
+			});
 		},
+
 		play : function() {
 			self.scene_index = (window.location.hash === '') ? 0 : parseInt(window.location.hash.replace(/[^\d\-]/g,''),10);
 			var target_scene = self.scene_index ;
@@ -473,6 +484,7 @@
 			self.scene = self.mergeArrays( self.default, self.parameters.scenes[self.scene_index]);
 			self.screen();
 		},
+
 		previous : function() {
 			window.location.replace('#'+( --self.scene_index ).toString());
 		},
@@ -495,6 +507,7 @@
 					break;
 			}
 		},
+
 		go : function() {
 			var data = document.querySelector('script[type="text/json"]');
 			if (data !== null) {
@@ -504,15 +517,14 @@
 			self.build();
 			self.play();
 			self.pixels_check();
-			window.addEventListener('hashchange',self.play)
+			window.addEventListener('hashchange',self.play);
 			window.addEventListener('resize',self.pixels_check);
 
 			document.addEventListener('keydown',self.event_keyboard);
 			document.getElementById('overscan-left').addEventListener('click',self.previous);
 			document.getElementById('overscan-right').addEventListener('click',self.next);
 		}
-	}
+	};
 
 	window.addEventListener('DOMContentLoaded',self.go);
-
 })();
