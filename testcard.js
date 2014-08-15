@@ -353,7 +353,50 @@
 				this.top_on();
 			}
 		},
-		onwebcam : function (stream) {
+		screen_img : function() {
+			this.scene_element = this.append(this.main,'img',{
+				src			: this.scene.img,
+				'class'		: 'fullCroped',
+			});
+		},
+		screen_video : function() {
+			this.scene_element = this.append(this.main,'video',{
+				src			: this.scene.video,
+				autoplay	: true,
+				'class'		: 'fullAdapt',
+			});
+		},
+		screen_youtube : function() {
+			this.scene_element = this.append(this.main,'iframe',{
+				width		: '100%',
+				height		: '100%',
+				src			: 'http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0',
+				frameborder	: 0
+			});
+		},
+		screen_vimeo : function() {
+			this.scene_element = this.append(this.main,'iframe',{
+				width		: '100%',
+				height		: '100%',
+				src			: 'http://player.vimeo.com/video/'+this.scene.vimeo,
+				frameborder	: 0
+			});
+		},
+		screen_capture : function () {
+			if (typeof this.navigator.getUserMedia === 'function') {
+				this.navigator.getUserMedia(
+					{
+						video: true,
+						audio: false
+					},this.screen_capture_on,
+					function(err) {
+						console.info('Error on capture : ', err);
+					});
+			} else {
+				console.info('Cannot capture webcam');
+			}
+		},
+		screen_capture_on : function (stream) {
 			var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
 			self.scene_element = self.append(self.main,'video',{
 				id			: 'playback',
@@ -404,52 +447,8 @@
 			var has = false;
 			for (var t in this.available_scenes) {
 				var mode = this.available_scenes[t];
-				if ((!has) && (this.scene[mode] !== undefined)) {
-					switch (mode) {
-						case 'img' :
-							this.scene_element = this.append(this.main,'img',{
-								src			: this.scene.img,
-								'class'		: 'fullCroped',
-							});
-							break;
-						case 'video' :
-							this.scene_element = this.append(this.main,'video',{
-								src			: this.scene.video,
-								autoplay	: true,
-								'class'		: 'fullAdapt',
-							});
-							break;
-						case 'youtube' :
-							this.scene_element = this.append(this.main,'iframe',{
-								width		: '100%',
-								height		: '100%',
-								src			: 'http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0',
-								frameborder	: 0
-							});
-							break;
-						case 'vimeo' :
-							this.scene_element = this.append(this.main,'iframe',{
-								width		: '100%',
-								height		: '100%',
-								src			: 'http://player.vimeo.com/video/'+this.scene.vimeo,
-								frameborder	: 0
-							});
-							break;
-						case 'capture' :
-							if (typeof this.navigator.getUserMedia === 'function') {
-								self.navigator.getUserMedia(
-									{
-										video: true,
-										audio: false
-									},self.onwebcam,
-									function(err) {
-										console.info('Error on capture : ', err);
-									});
-							} else {
-								console.info('Cannot capture webcam');
-							}
-							break;
-					}
+				if ( (!has) && (this.scene[mode] !== undefined) && (typeof this['screen_'+mode] === 'function') ) {
+					this['screen_'+mode]();
 					has = true;
 				}
 			}
