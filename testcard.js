@@ -502,6 +502,9 @@
 		},
 		event_keyboard : function(event) {
 			switch ( event.keyCode ) {
+				case 27 :
+					window.history.go( -1 );
+					break;
 				case 35 :
 					window.location.replace('#'+( self.parameters.scenes.length -1 ).toString());
 					break;
