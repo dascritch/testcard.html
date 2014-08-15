@@ -4,15 +4,15 @@
 // Repository : https://github.com/dascritch/testcard.html
 
 (function(){
-"use strict";
+'use strict';
 
 	var self = {
 		defaults : {
 			back		: '777777',
 			charts		: ['contrast', 'sharpness', 'colour'],
-			time		: "hh:mm:ss",
+			time		: 'hh:mm:ss',
 			// here is how to change chart names. NOTE this is only for default, never for scenes
-			labels				: {
+			labels		: {
 				'contrast'		: 'Contrast',
 				'sharpness'		: 'Sharpness',
 				'sharpnessh'	: 'Sharpness',
@@ -24,22 +24,22 @@
 				'time'			: ' ',
 				'synctop'		: 'Synchro'
 			},
-			stylesheet	: "testcard.css",
+			stylesheet	: 'testcard.css',
 			// yep, you can even change chart ranges. NOTE this is only for default, never for scenes
 			colours		: [	'0000c0', 'c00000', 'c000c0', '00c000', '00c0c0', 'c0c000', 'c0c0c0' ,
 							'000000', '2b2b2b', '555555', '808080', 'aaaaaa', 'd4d4d4', 'ffffff' ],
 			contrasts	: [	'252525', '202020', '1a1a1a', '131313', '0d0d0d', '060606', '000000' ,
 							'ffffff', 'f9f9f9', 'f2f2f2', 'ececec', 'e6e6e6', 'dfdfdf', 'd9d9d9' ],
-			greens	: [	'00ff00', '00d400', '00aa00', '008000', '005500', '002b00', '000000' ,
+			greens		: [	'00ff00', '00d400', '00aa00', '008000', '005500', '002b00', '000000' ,
 							'ffffff', 'd4ffd4', 'aaffaa', '80ff80', '55ff55', '2bff2b', '00ff00' ],
-			reds	: [	'ff0000', 'd40000', 'aa0000', '800000', '550000', '2b0000', '000000' ,
+			reds		: [	'ff0000', 'd40000', 'aa0000', '800000', '550000', '2b0000', '000000' ,
 							'ffffff', 'ffd4d4', 'ffaaaa', 'ff8080', 'ff5555', 'ff2b2b', 'ff0000' ],
-			blues	: [	'0000ff', '0000d4', '0000aa', '000080', '000055', '00002b', '000000' ,
+			blues		: [	'0000ff', '0000d4', '0000aa', '000080', '000055', '00002b', '000000' ,
 							'ffffff', 'd4d4ff', 'aaaaff', '8080ff', '5555ff', '2b2bff', '0000ff' ],
-			overscans : {
+			overscans	: {
 				'top'		: '20,0 0,40 40,40',
 				'left'		: '0,20 40,0 40,40',
-				'right'	: '40,20 0,0 0,40',
+				'right'		: '40,20 0,0 0,40',
 				'bottom'	: '20,40 0,0 40,0',
 			}
 		},
@@ -72,11 +72,11 @@
 			}
 			return out;
 		},
-		isObj : function (test) {
-			return typeof test === "object";
+		_obj : function (test) {
+			return typeof test === 'object';
 		},
-		isFunc : function (test) {
-			return typeof test === "function";
+		_func : function (test) {
+			return typeof test === 'function';
 		},
 
 		pixels_check : function() {
@@ -251,14 +251,17 @@
 				fill	: '#ddd',
 				id		: 'syncer'
 			});
-			[ 'animationstart', 'animationiteration',
-			'webkitAnimationStart', 'webkitAnimationIteration',
-			'MSAnimationStart', 'MSAnimationIteration' ].forEach( function(event) {
+
+			[
+				'animationstart', 'animationiteration',
+				'webkitAnimationStart', 'webkitAnimationIteration',
+				'MSAnimationStart', 'MSAnimationIteration'
+			].forEach( function(event) {
 				self.syncer_element.addEventListener(event, self.event_synctop, false);
 			});
 		},
 		build_unprefix_browsers : function() {
-			if (!this.isFunc( this.navigator.getUserMedia )) {
+			if (!this._func( this.navigator.getUserMedia )) {
 				this.navigator.getUserMedia	= (
 					this.navigator.webkitGetUserMedia ||
 					this.navigator.mozGetUserMedia ||
@@ -282,7 +285,7 @@
 			var p;
 			for (var c in this.default.labels) {
 				if (this.default.labels.hasOwnProperty(c)) {
-					p = this.append(chartzone, 'p', { id:c });
+					p = this.append(chartzone, 'p', { id : c });
 					this.append(p, 'span', {}, this.default.labels[c]);
 					this.chart_svg[c] = this.appendSvg(p, 'svg', {
 						width	: this.chart_squsize*7,
@@ -309,7 +312,7 @@
 		},
 
 		event_synctop : function() {
-			if (!self.isObj( self.scene.synctop )) {
+			if (!self._obj( self.scene.synctop )) {
 				return;
 			}
 			window.setTimeout(self.top_on, self.offsync_animation);
@@ -334,7 +337,7 @@
 			this.oscillator = null;
 			this.gainNode = null;
 
-			if ((this.scene.sound !== undefined) && (this.isObj( this.scene.sound ))) {
+			if ((this.scene.sound !== undefined) && (this._obj( this.scene.sound ))) {
 				var audioCtx = new window.AudioContext();
 
 				// create Oscillator node
@@ -348,7 +351,7 @@
 				this.oscillator.start();
 			}
 
-			if (this.isObj( this.scene.synctop )) {
+			if (this._obj( this.scene.synctop )) {
 				this.scene.synctop.length = this.scene.synctop.length || 100;
 				this.scene.synctop.loop = this.scene.synctop.loop || 2000;
 				this.offsync_animation = this.scene.synctop.loop / 4;
@@ -398,7 +401,7 @@
 			});
 		},
 		screen_capture : function () {
-			if (this.isFunc( this.navigator.getUserMedia )) {
+			if (this._func( this.navigator.getUserMedia )) {
 				this.navigator.getUserMedia(
 					{
 						video: true,
@@ -417,7 +420,7 @@
 				id			: 'playback',
 				'class'		: 'fullCroped',
 			});
-			if (self.isFunc( self.navigator.mozGetUserMedia )) {
+			if (self._func( self.navigator.mozGetUserMedia )) {
 				self.scene_element.mozSrcObject = stream;
 			} else {
 				self.scene_element.src = createSrc(stream);
@@ -427,7 +430,7 @@
 		screen : function() {
 			// setting background
 			if (this.scene_element !== null) {
-				if (this.isFunc( this.scene_element.remove )) {
+				if (this._func( this.scene_element.remove )) {
 					this.scene_element.remove();
 				} else {
 					// ABSOLUTELY A BAD IDEA, but no way to get rid off phantomatic iframes
@@ -468,7 +471,7 @@
 
 			var has = false;
 			this.available_scenes.forEach(function (mode) {
-				if ( (!has) && (self.scene[mode] !== undefined) && (self.isFunc( self['screen_'+mode] )) ) {
+				if ( (!has) && (self.scene[mode] !== undefined) && (self._func( self['screen_'+mode] )) ) {
 					self['screen_'+mode]();
 					has = true;
 				}
