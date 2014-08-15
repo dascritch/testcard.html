@@ -72,6 +72,12 @@
 			}
 			return out;
 		},
+		isObj : function (test) {
+			return typeof test === "object";
+		},
+		isFunc : function (test) {
+			return typeof test === "function";
+		},
 
 		pixels_check : function() {
 			document.getElementById('pixels_horizontal').textContent = window.innerWidth;
@@ -252,7 +258,7 @@
 			});
 		},
 		build_unprefix_browsers : function() {
-			if (typeof this.navigator.getUserMedia !== 'function') {
+			if (!this.isFunc( this.navigator.getUserMedia )) {
 				this.navigator.getUserMedia	= (
 					this.navigator.webkitGetUserMedia ||
 					this.navigator.mozGetUserMedia ||
@@ -303,7 +309,7 @@
 		},
 
 		event_synctop : function() {
-			if (typeof self.scene.synctop !== "object") {
+			if (!self.isObj( self.scene.synctop )) {
 				return;
 			}
 			window.setTimeout(self.top_on, self.offsync_animation);
@@ -328,7 +334,7 @@
 			this.oscillator = null;
 			this.gainNode = null;
 
-			if ((this.scene.sound !== undefined) && (typeof this.scene.sound === "object")) {
+			if ((this.scene.sound !== undefined) && (this.isObj( this.scene.sound ))) {
 				var audioCtx = new window.AudioContext();
 
 				// create Oscillator node
@@ -342,7 +348,7 @@
 				this.oscillator.start();
 			}
 
-			if (typeof this.scene.synctop === "object") {
+			if (this.isObj( this.scene.synctop )) {
 				this.scene.synctop.length = this.scene.synctop.length || 100;
 				this.scene.synctop.loop = this.scene.synctop.loop || 2000;
 				this.offsync_animation = this.scene.synctop.loop / 4;
@@ -392,7 +398,7 @@
 			});
 		},
 		screen_capture : function () {
-			if (typeof this.navigator.getUserMedia === 'function') {
+			if (this.isFunc( this.navigator.getUserMedia )) {
 				this.navigator.getUserMedia(
 					{
 						video: true,
@@ -411,7 +417,7 @@
 				id			: 'playback',
 				'class'		: 'fullCroped',
 			});
-			if (typeof self.navigator.mozGetUserMedia === 'function') {
+			if (self.isFunc( self.navigator.mozGetUserMedia )) {
 				self.scene_element.mozSrcObject = stream;
 			} else {
 				self.scene_element.src = createSrc(stream);
@@ -421,7 +427,7 @@
 		screen : function() {
 			// setting background
 			if (this.scene_element !== null) {
-				if (typeof this.scene_element.remove === 'function') {
+				if (this.isFunc( this.scene_element.remove )) {
 					this.scene_element.remove();
 				} else {
 					// ABSOLUTELY A BAD IDEA, but no way to get rid off phantomatic iframes
@@ -462,7 +468,7 @@
 
 			var has = false;
 			this.available_scenes.forEach(function (mode) {
-				if ( (!has) && (self.scene[mode] !== undefined) && (typeof self['screen_'+mode] === 'function') ) {
+				if ( (!has) && (self.scene[mode] !== undefined) && (self.isFunc( self['screen_'+mode] )) ) {
 					self['screen_'+mode]();
 					has = true;
 				}
