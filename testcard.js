@@ -6,6 +6,56 @@
 (function(){
 'use strict';
 
+	/* manipulations utilities */
+
+	function mergeArrays(obj1,obj2) {
+		var i, out = {};
+		for (i in obj1) {
+			if (obj1.hasOwnProperty(i)) out[i] = obj1[i];
+		}
+		for (i in obj2) {
+			if (obj2.hasOwnProperty(i)) out[i] = obj2[i];
+		}
+		return out;
+	}
+
+	function _obj(test) {
+		return typeof test === 'object';
+	}
+
+	function _func(test) {
+		return typeof test === 'function';
+	}
+
+	/* dom manipulations utilities */
+
+	function appendAttr(element,attributs) {
+		for (var cle in attributs) {
+			if (attributs.hasOwnProperty(cle)) {
+				var valeur = attributs[cle];
+				element.setAttribute(cle,valeur);
+			}
+		}
+	}
+
+	function appendSvg(el,nom,attributs) {
+		// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
+		var svg = document.createElementNS('http://www.w3.org/2000/svg',nom);
+		appendAttr(svg,attributs);
+		el.appendChild(svg);
+		return svg;
+	}
+
+	function append(el,nom,attributs,inner) {
+		var created = document.createElement(nom);
+		appendAttr(created,attributs);
+		el.appendChild(created);
+		if (inner !== undefined) {
+			created.innerHTML = inner;
+		}
+		return created;
+	}
+
 	var self = {
 		defaults : {
 			back		: '777777',
@@ -62,36 +112,20 @@
 
 		navigator			: window.navigator,
 
-		mergeArrays : function (obj1,obj2) {
-			var i, out = {};
-			for (i in obj1) {
-				if (obj1.hasOwnProperty(i)) out[i] = obj1[i];
-			}
-			for (i in obj2) {
-				if (obj2.hasOwnProperty(i)) out[i] = obj2[i];
-			}
-			return out;
-		},
-		_obj : function (test) {
-			return typeof test === 'object';
-		},
-		_func : function (test) {
-			return typeof test === 'function';
-		},
-
 		pixels_check : function() {
 			document.getElementById('pixels_horizontal').textContent = window.innerWidth;
 			document.getElementById('pixels_vertical').textContent = window.innerHeight;
 			document.getElementById('pixels_ratio').textContent = window.devicePixelRatio.toFixed(2);
 		},
 
-		twodigits : function(num) {
-			return num<10 ? ('0' + num) : num;
-		},
 		colons : function(nums) {
+			function twodigits(num) {
+				return num<10 ? ('0' + num) : num;
+			}
+
 			var i, out = '';
 			for (i in nums) {
-				if (nums.hasOwnProperty(i))  out += (out === '' ? '' : ':') + this.twodigits(nums[i]);
+				if (nums.hasOwnProperty(i))  out += (out === '' ? '' : ':') + twodigits(nums[i]);
 			}
 			return out;
 		},
@@ -101,9 +135,9 @@
 			if (self.countdown !== false ) {
 				ms = Math.abs(self.countdown - ms);
 			}
-			var unix = Math.floor(ms / 1000 );
+			var unix = Math.floor(ms /1E3 );
 			var out;
-			var cs = Math.floor((ms % 1000) / 10 );
+			var cs = Math.floor((ms %1E3 ) / 10 );
 			var s = unix %60;
 			var m = Math.floor( unix/60 ) %60;
 			var h = Math.floor( (unix/3600) - ( (self.countdown !== false ) ? 0 : self.timezoneoffset ) ) %24 ;
@@ -130,189 +164,8 @@
 			document.getElementById('timer').textContent = out;
 		},
 
-		appendAttr : function(element,attributs) {
-			for (var cle in attributs) {
-				if (attributs.hasOwnProperty(cle)) {
-					var valeur = attributs[cle];
-					element.setAttribute(cle,valeur);
-				}
-			}
-		},
-		appendSvg : function (el,nom,attributs) {
-			// this function was explained here : http://dascritch.net/post/2011/10/04/jQuery-pour-SVG-%3A-How-To-ins%C3%A9rer-un-%C3%A9l%C3%A9ment
-			var svg = document.createElementNS('http://www.w3.org/2000/svg',nom);
-			this.appendAttr(svg,attributs);
-			el.appendChild(svg);
-			return svg;
-		},
-		append : function (el,nom,attributs,inner) {
-			var created = document.createElement(nom);
-			this.appendAttr(created,attributs);
-			el.appendChild(created);
-			if (inner !== undefined) {
-				created.innerHTML = inner;
-			}
-			return created;
-		},
-
-		build_sharpness : function() {
-			function classname(cl) {
-				return cl % 2 === 0 ? 'test_sharpnessO' : 'test_sharpnessI';
-			}
-			var x = 0;
-			var cl = 0;
-			var pars = {
-					y		: 0,
-					width	: this.chart_squsize *7,
-					height	: this.chart_squsize *2
-				};
-			while (x<280) {
-				pars.x = x;
-				pars['class'] = classname(cl);
-				this.appendSvg(this.chart_svg.sharpnessh,'rect',pars);
-				this.appendSvg(this.chart_svg.sharpness,'rect',pars);
-				cl++;
-				x += Math.floor( x / this.chart_squsize ) +1;
-			}
-			var y;
-			for (x=0 ; x<=6 ; x++) {
-				y = 0;
-				cl = 0;
-				pars.x = x * this.chart_squsize;
-				while (y< (this.chart_squsize *2)) {
-					pars.y = y;
-					pars['class'] = classname(cl);
-					this.appendSvg(this.chart_svg.sharpnessv,'rect',pars);
-					if (y <= this.chart_squsize) {
-						pars.y = y + this.chart_squsize;
-						this.appendSvg(this.chart_svg.sharpness,'rect',pars);
-					}
-					y += x+1;
-					cl++;
-				}
-			}
-		},
-		build_squares : function(chartname) {
-			var chartzone = self.chart_svg[chartname];
-			function carre(color,c) {
-				self.appendSvg(chartzone,'rect', {
-					x		: 0 + self.chart_squsize * (c%7),
-					y		: self.chart_squsize * Math.floor(c/7),
-					width	: self.chart_squsize * 7,
-					height	: self.chart_squsize * 2,
-					fill	:'#' + color
-				});
-			}
-			self.defaults[chartname+'s'].forEach(carre);
-		},
-		build_colours : function() {
-			['colour','contrast','green','red','blue'].forEach( this.build_squares );
-
-			var magic_circles = { '0' : 6, '6' : 0, '7' : 13, '13' : 7 };
-			for (var i in magic_circles) {
-				if (magic_circles.hasOwnProperty(i)) {
-					var c = magic_circles[i];
-					this.appendSvg(this.chart_svg.contrast,'circle', {
-						cx		: this.chart_squsize * ( (c%7) + 0.5),
-						cy		: this.chart_squsize * (Math.floor(c/7) +0.5),
-						r		: this.chart_squsize / 4,
-						fill	:'#'+this.defaults.contrasts[i]
-					});
-				}
-			}
-		},
-		build_timer : function() {
-			var chartzone = this.chart_svg.time;
-			this.appendSvg(chartzone,'text', {
-					x	: this.chart_squsize * 3.5,
-					y	: this.chart_squsize * 1.3, // yep, it's piggy-pinched
-					id	: 'timer'
-				});
-		},
-		build_synctop : function() {
-			var chartzone = this.chart_svg.synctop;
-			this.appendSvg(chartzone,'rect', {
-				x		: 0,
-				y		: this.chart_squsize * 0.9,
-				width	: this.chart_squsize * 7,
-				height	: this.chart_squsize * 0.2,
-				fill	: '#444'
-			});
-			this.syncbar_element = this.appendSvg(chartzone,'rect', {
-				x		: 0,
-				y		: this.chart_squsize * 0.9,
-				width	: this.chart_squsize * 7,
-				height	: this.chart_squsize * 0.2,
-				fill	: '#ccc',
-				id 		: 'syncbar'
-			});
-			this.syncer_element = this.appendSvg(chartzone,'polygon', {
-				points	: '-10,0 10,0 0,38',
-				fill	: '#ddd',
-				id		: 'syncer'
-			});
-
-			[
-				'animationstart', 'animationiteration',
-				'webkitAnimationStart', 'webkitAnimationIteration',
-				'MSAnimationStart', 'MSAnimationIteration'
-			].forEach( function(event) {
-				self.syncer_element.addEventListener(event, self.event_synctop, false);
-			});
-		},
-		build_unprefix_browsers : function() {
-			if (!this._func( this.navigator.getUserMedia )) {
-				this.navigator.getUserMedia	= (
-					this.navigator.webkitGetUserMedia ||
-					this.navigator.mozGetUserMedia ||
-					this.navigator.msGetUserMedia);
-			}
-		},
-		build : function() {
-			this.append(document.body,'link',{
-				rel		: 'stylesheet' ,
-				href	: this.default.stylesheet
-			});
-
-			this.main = this.append(document.body,'main');
-			this.append(document.body,'section',{id:'rez'});
-			this.append(document.getElementById('rez'),'p',{},
-					'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
-
-			this.build_unprefix_browsers();
-
-			var chartzone = this.append(document.body,'section',{ id : 'charts' });
-			var p;
-			for (var c in this.default.labels) {
-				if (this.default.labels.hasOwnProperty(c)) {
-					p = this.append(chartzone, 'p', { id : c });
-					this.append(p, 'span', {}, this.default.labels[c]);
-					this.chart_svg[c] = this.appendSvg(p, 'svg', {
-						width	: this.chart_squsize*7,
-						height	: this.chart_squsize*2
-					});
-				}
-			}
-			this.build_sharpness();
-			this.build_colours();
-			this.build_timer();
-			this.build_synctop();
-
-			var aside = this.append(document.body,'aside');
-			for (var edge in this.default.overscans) {
-				if (this.default.overscans.hasOwnProperty(edge)) {
-					var canv = this.appendSvg(
-							this.append(aside,'div',{ id : 'overscan-'+edge }),
-							'svg');
-					this.appendSvg( canv, 'polygon',{ points : this.default.overscans[edge] } );
-				}
-			}
-
-			this.timezoneoffset = new Date().getTimezoneOffset() / 60;
-		},
-
 		event_synctop : function() {
-			if (!self._obj( self.scene.synctop )) {
+			if (!_obj( self.scene.synctop )) {
 				return;
 			}
 			window.setTimeout(self.top_on, self.offsync_animation);
@@ -337,7 +190,7 @@
 			this.oscillator = null;
 			this.gainNode = null;
 
-			if ((this.scene.sound !== undefined) && (this._obj( this.scene.sound ))) {
+			if ((this.scene.sound !== undefined) && (_obj( this.scene.sound ))) {
 				var audioCtx = new window.AudioContext();
 
 				// create Oscillator node
@@ -351,7 +204,7 @@
 				this.oscillator.start();
 			}
 
-			if (this._obj( this.scene.synctop )) {
+			if (_obj( this.scene.synctop )) {
 				this.scene.synctop.length = this.scene.synctop.length || 100;
 				this.scene.synctop.loop = this.scene.synctop.loop || 2000;
 				this.offsync_animation = this.scene.synctop.loop / 4;
@@ -372,20 +225,20 @@
 		},
 
 		screen_img : function() {
-			this.scene_element = this.append(this.main,'img',{
+			this.scene_element = append(this.main,'img',{
 				src			: this.scene.img,
 				'class'		: 'fullCroped',
 			});
 		},
 		screen_video : function() {
-			this.scene_element = this.append(this.main,'video',{
+			this.scene_element = append(this.main,'video',{
 				src			: this.scene.video,
 				autoplay	: true,
 				'class'		: 'fullAdapt',
 			});
 		},
 		screen_youtube : function() {
-			this.scene_element = this.append(this.main,'iframe',{
+			this.scene_element = append(this.main,'iframe',{
 				width		: '100%',
 				height		: '100%',
 				src			: 'http://www.youtube-nocookie.com/embed/'+this.scene.youtube+'?rel=0',
@@ -393,7 +246,7 @@
 			});
 		},
 		screen_vimeo : function() {
-			this.scene_element = this.append(this.main,'iframe',{
+			this.scene_element = append(this.main,'iframe',{
 				width		: '100%',
 				height		: '100%',
 				src			: 'http://player.vimeo.com/video/'+this.scene.vimeo,
@@ -401,7 +254,7 @@
 			});
 		},
 		screen_capture : function () {
-			if (this._func( this.navigator.getUserMedia )) {
+			if (_func( this.navigator.getUserMedia )) {
 				this.navigator.getUserMedia(
 					{
 						video: true,
@@ -416,11 +269,11 @@
 		},
 		screen_capture_on : function (stream) {
 			var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
-			self.scene_element = self.append(self.main,'video',{
+			self.scene_element = append(self.main,'video',{
 				id			: 'playback',
 				'class'		: 'fullCroped',
 			});
-			if (self._func( self.navigator.mozGetUserMedia )) {
+			if (_func( self.navigator.mozGetUserMedia )) {
 				self.scene_element.mozSrcObject = stream;
 			} else {
 				self.scene_element.src = createSrc(stream);
@@ -430,7 +283,7 @@
 		screen : function() {
 			// setting background
 			if (this.scene_element !== null) {
-				if (this._func( this.scene_element.remove )) {
+				if (_func( this.scene_element.remove )) {
 					this.scene_element.remove();
 				} else {
 					// ABSOLUTELY A BAD IDEA, but no way to get rid off phantomatic iframes
@@ -471,7 +324,7 @@
 
 			var has = false;
 			this.available_scenes.forEach(function (mode) {
-				if ( (!has) && (self.scene[mode] !== undefined) && (self._func( self['screen_'+mode] )) ) {
+				if ( (!has) && (self.scene[mode] !== undefined) && (_func( self['screen_'+mode] )) ) {
 					self['screen_'+mode]();
 					has = true;
 				}
@@ -490,7 +343,7 @@
 				window.location.hash = ( target_scene === 0 ) ? '' : target_scene.toString();
 				return;
 			}
-			self.scene = self.mergeArrays( self.default, self.parameters.scenes[self.scene_index]);
+			self.scene = mergeArrays( self.default, self.parameters.scenes[self.scene_index]);
 			self.screen();
 		},
 
@@ -518,25 +371,207 @@
 					self.next();
 					break;
 			}
-		},
+		}
+	};
 
-		go : function() {
+	function build() {
+		function build_sharpness() {
+			function classname(cl) {
+				return cl % 2 === 0 ? 'test_sharpnessO' : 'test_sharpnessI';
+			}
+			var x = 0;
+			var cl = 0;
+			var pars = {
+					y		: 0,
+					width	: self.chart_squsize *7,
+					height	: self.chart_squsize *2
+				};
+			while (x < 280) {
+				pars.x = x;
+				pars['class'] = classname(cl);
+				appendSvg(self.chart_svg.sharpnessh,'rect',pars);
+				appendSvg(self.chart_svg.sharpness,'rect',pars);
+				cl++;
+				x += Math.floor( x / self.chart_squsize ) +1;
+			}
+			var y;
+			for (x = 0 ; x <= 6 ; x++) {
+				y = 0;
+				cl = 0;
+				pars.x = x * self.chart_squsize;
+				while (y< (self.chart_squsize *2)) {
+					pars.y = y;
+					pars['class'] = classname(cl);
+					appendSvg(self.chart_svg.sharpnessv,'rect',pars);
+					if (y <= self.chart_squsize) {
+						pars.y = y + self.chart_squsize;
+						appendSvg(self.chart_svg.sharpness,'rect',pars);
+					}
+					y += x+1;
+					cl++;
+				}
+			}
+		}
+
+		function build_squares(chartname) {
+			var chartzone = self.chart_svg[chartname];
+			function carre(color,c) {
+				appendSvg(chartzone,'rect', {
+					x		: 0 + self.chart_squsize * (c%7),
+					y		: self.chart_squsize * Math.floor(c/7),
+					width	: self.chart_squsize * 7,
+					height	: self.chart_squsize * 2,
+					fill	:'#' + color
+				});
+			}
+			self.defaults[chartname+'s'].forEach(carre);
+		}
+
+		function build_colours() {
+			['colour','contrast','green','red','blue'].forEach( build_squares );
+
+			var magic_circles = { '0' : 6, '6' : 0, '7' : 13, '13' : 7 };
+			for (var i in magic_circles) {
+				if (magic_circles.hasOwnProperty(i)) {
+					var c = magic_circles[i];
+					appendSvg(self.chart_svg.contrast,'circle', {
+						cx		: self.chart_squsize * ( (c % 7) + 0.5),
+						cy		: self.chart_squsize * (Math.floor(c / 7) + 0.5),
+						r		: self.chart_squsize / 4,
+						fill	:'#'+self.defaults.contrasts[i]
+					});
+				}
+			}
+		}
+
+		function build_timer() {
+			var chartzone = self.chart_svg.time;
+			appendSvg(chartzone,'text', {
+					x	: self.chart_squsize * 3.5,
+					y	: self.chart_squsize * 1.3, // yep, it's piggy-pinched
+					id	: 'timer'
+				});
+		}
+
+		function build_synctop() {
+			var chartzone = self.chart_svg.synctop;
+			appendSvg(chartzone,'rect', {
+				x		: 0,
+				y		: self.chart_squsize * 0.9,
+				width	: self.chart_squsize * 7,
+				height	: self.chart_squsize * 0.2,
+				fill	: '#444'
+			});
+			self.syncbar_element = appendSvg(chartzone,'rect', {
+				x		: 0,
+				y		: self.chart_squsize * 0.9,
+				width	: self.chart_squsize * 7,
+				height	: self.chart_squsize * 0.2,
+				fill	: '#ccc',
+				id 		: 'syncbar'
+			});
+			self.syncer_element = appendSvg(chartzone,'polygon', {
+				points	: '-10,0 10,0 0,38',
+				fill	: '#ddd',
+				id		: 'syncer'
+			});
+
+			[
+				'animationstart', 'animationiteration',
+				'webkitAnimationStart', 'webkitAnimationIteration',
+				'MSAnimationStart', 'MSAnimationIteration'
+			].forEach( function(event) {
+				self.syncer_element.addEventListener(event, self.event_synctop, false);
+			});
+		}
+
+		function build_unprefix_browsers() {
+			if (!_func( self.navigator.getUserMedia )) {
+				self.navigator.getUserMedia	= (
+					self.navigator.webkitGetUserMedia ||
+					self.navigator.mozGetUserMedia ||
+					self.navigator.msGetUserMedia);
+			}
+		}
+
+		function build_assets() {
+			append(document.body,'link',{
+				rel		: 'stylesheet' ,
+				href	: self.default.stylesheet
+			});
+		}
+
+		function build_layouts() {
+			function build_labels() {
+				var chartzone = append(document.body,'section',{ id : 'charts' });
+				var p;
+				for (var c in self.default.labels) {
+					if (self.default.labels.hasOwnProperty(c)) {
+						p = append(chartzone, 'p', { id : c });
+						append(p, 'span', {}, self.default.labels[c]);
+						self.chart_svg[c] = appendSvg(p, 'svg', {
+							width	: self.chart_squsize*7,
+							height	: self.chart_squsize*2
+						});
+					}
+				}
+			}
+
+			function build_overscan() {
+				var aside = append(document.body,'aside');
+				for (var edge in self.default.overscans) {
+					if (self.default.overscans.hasOwnProperty(edge)) {
+						var canv = appendSvg(
+								append(aside,'div',{ id : 'overscan-'+edge }),
+								'svg');
+						appendSvg( canv, 'polygon',{ points : self.default.overscans[edge] } );
+					}
+				}
+			}
+
+			self.main = append(document.body,'main');
+			append(document.body,'section',{id:'rez'});
+			append(document.getElementById('rez'),'p',{},
+					'display <var id="pixels_horizontal">000</var> × <var id="pixels_vertical">000</var> — <var id="pixels_ratio">1</var> dppx');
+			build_labels();
+			build_overscan();
+		}
+
+		build_unprefix_browsers();
+		build_assets();
+		build_layouts();
+
+		build_sharpness();
+		build_colours();
+		build_timer();
+		build_synctop();
+
+		self.timezoneoffset = new Date().getTimezoneOffset() / 60;
+	}
+
+	function go() {
+		function fetch_params() {
 			var data = document.querySelector('script[type="text/json"]');
 			if (data !== null) {
 				self.parameters = JSON.parse(data.innerHTML);
-				self.default = self.mergeArrays( self.defaults , self.parameters );
+				self.default = mergeArrays( self.defaults , self.parameters );
 			}
-			self.build();
-			self.play();
-			self.pixels_check();
+		}
+
+		function set_ui_events() {
 			window.addEventListener('hashchange',self.play);
 			window.addEventListener('resize',self.pixels_check);
-
 			document.addEventListener('keydown',self.event_keyboard);
 			document.getElementById('overscan-left').addEventListener('click',self.previous);
 			document.getElementById('overscan-right').addEventListener('click',self.next);
 		}
-	};
 
-	window.addEventListener('DOMContentLoaded',self.go);
+		fetch_params();
+		build();
+		self.play();
+		self.pixels_check();
+		set_ui_events();
+	}
+
+	window.addEventListener('DOMContentLoaded',go);
 })();
