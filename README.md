@@ -80,6 +80,10 @@ Known bugs
 * Sub-rendering issues on SVG on Firefox, you can see in sharpness charts, on odd/even sizes
 * Chrome, Safari and other webkit engines won't let you use capture (webcam, micro) on local files. Firefox accepts it.
 
+Code design
+-----------
+Yes, it's not the best to have a single one monolythic JS source, but this code should be able to work in any context (`http://` or `file:///`). It must be modularizable as far as possible, as a proof of concept.
+
 TODO
 ----
 * YUV and other special colorspaces, with degradees
