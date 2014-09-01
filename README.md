@@ -7,7 +7,7 @@ Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
 Originally inspired by a design by [Ryan Gilmore](http://www.urbanspaceman.net/urbanspaceman/index.php?/print/tv-test-card/)
 
-Version 0.3pre
+Version 0.3
 
 [You can touch, you can try](http://dascritch.github.io/testcard.html/)
 
@@ -15,7 +15,7 @@ Disclaimer
 ----------
 This code is only intented for testing video-projections before talks, and also unveils some rendering bugs on browsers.
 
-Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters ! If you need a real testcard, you should play it via direct output or use a special generator. 
+Browsers are not acurate video renderers. Do not use it for professionnal broadcast or on-air tuning : you may experience lot of bugs, lags and others critters ! If you need a real testcard, you should play it via direct output or use a special generator.
 
 Howto
 -----
@@ -105,8 +105,8 @@ Versions
 * August 2014 : 0.3
   * full parametric
   * layout auto-constructive
-  * minimal html 
-  * synctop 
+  * minimal html
+  * synctop
   * correct countdown
   * capture
 * July 2014 : 0.2
