@@ -364,9 +364,11 @@
 				case 36 :
 					window.location.replace('#');
 					break;
+				case 33 :
 				case 37 :
 					self.previous();
 					break;
+				case 34 :
 				case 39 :
 					self.next();
 					break;
