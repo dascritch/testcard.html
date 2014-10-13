@@ -1,7 +1,7 @@
 testcard.html
 --------------
 
-Static HTML5 page. Helping to calibrate projection before a talk.
+HTML5 page for calibrate projection before a talk.
 
 Author :  [Xavier "dascritch" Mouton-Dubosc](http://dascritch.com)
 
